@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('paciente')">Pacientes</button>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('especialista')">Especialistas</button>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('admin')">Administradores</button>
+    </div>
+</div>
+
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+            <th>NOMBRE</th>
+            <th>APELLIDO</th>
+            <th>EDAD</th>
+            <th>DNI</th>
+            <th *ngIf="this.tipo == 'paciente'">OBRA SOCIAL</th>
+            <th *ngIf="this.tipo == 'especialista'">ESPECIALIDAD</th>
+            <th>MAIL</th>
+            <th>FOTO</th>
+            <th *ngIf="this.tipo == 'paciente'">FOTO 2</th>
+            <th *ngIf="this.tipo == 'especialista'">CUENTA VERIFICADA</th>
+            <th *ngIf="this.tipo == 'especialista'">VERIFICAR</th>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let item of arrAux">   
+            <td>{{item.nombre}}</td>
+            <td>{{item.apellido}}</td>
+            <td>{{item.edad}}</td>
+            <td>{{item.dni}}</td>
+            <td *ngIf="this.tipo == 'paciente'">{{item.obraSocial}}</td>
+            <td *ngIf="this.tipo == 'especialista'">{{item.especialidad}}</td>
+            <td>{{item.mail}}</td>
+            <td><img [src]="item.fotoPerfil" height="30px" width="30px"></td>
+            <td *ngIf="this.tipo == 'paciente'"><img [src]="item.fotoPerfil2" height="30px" width="30px"></td>
+            <td *ngIf="this.tipo == 'especialista' && !item.cuentaVerificada">❌</td>
+            <td *ngIf="this.tipo == 'especialista' && item.cuentaVerificada">✔️</td>
+            <td *ngIf="this.tipo == 'especialista' && !item.cuentaVerificada">
+                <button class="btn btn-primary btn-lg btn-block" (click)="this.verificarEspecialista(item)">Verificar</button>
+            </td>
+            <td *ngIf="this.tipo == 'especialista' && item.cuentaVerificada">
+                <button class="btn btn-primary btn-lg btn-block" (click)="this.verificarEspecialista(item)">Desverificar</button>
+            </td>
+        </tr>   
+
+        </tbody>
+        </table>
+    </div>
