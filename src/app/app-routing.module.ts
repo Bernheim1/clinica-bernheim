@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { LoginComponent } from './components/login/login.component';
-import { SeccionUsuariosComponent } from './components/seccion-usuarios/seccion-usuarios.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 import { SeleccionRegistroComponent } from './components/seleccion-registro/seleccion-registro.component';
+import { AuthAdminGuard } from './guards/auth-admin.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path: '', component: BienvenidaComponent},
   {path: 'login', component: LoginComponent},
   {path: 'registro', component: SeleccionRegistroComponent},
-  {path: 'seccionUsuarios', component: SeccionUsuariosComponent},
+  {path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]},
+  {path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthAdminGuard]},
+  {path: 'turnos', loadChildren: () => import('./modules/turnos/turnos.module').then(m => m.TurnosModule)},
 ];
 
 @NgModule({

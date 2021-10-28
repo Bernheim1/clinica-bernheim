@@ -6,7 +6,6 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
-    <title>Jumbotron Template · Bootstrap v4.6</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/jumbotron/">
 
@@ -34,7 +33,7 @@
     </style>
 
     
-
+    <!-- Custom styles for this template -->
   </head>
   <body>
     
@@ -44,20 +43,32 @@
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">Clinica</h1>
+      <div class="card p-5" style="margin-top: 10px">
+        <h1 class="display-3">Clinica online</h1>
+        <p><a class="btn btn-primary btn-lg" [routerLink]="['/login']" role="button">Ingresar &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" [routerLink]="['/registro']" role="button">Registrarse &raquo;</a></p>
+      </div>
     </div>
   </div>
 
   <div class="container">
     <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-6 card">
-        <h2>Login</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" [routerLink]="['/login']">Ir &raquo;</a></p>
+    <div class="row" style="justify-content: center">
+      <div class="col-md-9 card" *ngIf="this.auth.currentUser != null">
+        <h2>Perfil</h2>
+        <p><a class="btn btn-secondary" [routerLink]="['/perfil']" role="button">Ir &raquo;</a></p>
       </div>
-      <div class="col-md-6 card">
-        <h2>Registro</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" [routerLink]="['/registro']">Ir &raquo;</a></p>
+      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null">
+        <h2>Turnos</h2>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/paciente']" role="button">Ir &raquo;</a></p>
+      </div>
+      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'paciente' || this.auth.currentUser.tipo == 'admin'">
+        <h2>Solicitar turno</h2>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/alta']" role="button">Ir &raquo;</a></p>
+      </div>
+      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">
+        <h2>Seccion usuarios</h2>
+        <p><a class="btn btn-secondary" [routerLink]="['/admin/seccionUsuarios']" role="button">Ir &raquo;</a></p>
       </div>
     </div>
 
@@ -67,6 +78,9 @@
 
 </main>
 
+<footer class="container">
+  <p>&copy; Clinica Bernheim</p>
+</footer>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

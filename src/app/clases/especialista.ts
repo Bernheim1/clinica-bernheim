@@ -3,7 +3,7 @@ export class Especialista {
     apellido : string = '';
     edad : number = 0;
     dni : number = 0;
-    especialidad : string = '';
+    especialidades : any[] = [];
     mail : string = '';
     contrasena : string = '';
     fotoPerfil : string = '';

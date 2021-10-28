@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,9 +9,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/jumbotron/">
 
-    
 
-    <!-- Bootstrap core CSS -->
 
 
 
@@ -34,50 +31,47 @@
     </style>
 
     
-
   </head>
   <body>
     
 
-
+<main role="main">
 
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
-    <div class="container card p-5" style="margin-top: 10px">
-        <h1 class="display-3">Registro de usuarios</h1>
+    <div class="container">
+      <app-tabla-turnos-paciente></app-tabla-turnos-paciente>
     </div>
   </div>
 
   <div class="container">
     <!-- Example row of columns -->
-    <div class="row" style="justify-content: center" *ngIf="!this.seleccionado">
-      <div class="col-md-9 card">
-        <h2>Paciente</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('paciente')">Registrar &raquo;</a></p>
+    <div class="row">
+      <div class="col-md-3 card">
+        <h2>Cancelar turno</h2>
       </div>
-      <div class="col-md-9 card" style="margin-top: 10px">
-        <h2>Espacialista</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('especialista')">Registrar &raquo;</a></p>
+      <div class="col-md-3 card">
+        <h2>Ver reseña</h2>
       </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.admin">
-        <h2>Administrador</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('admin')">Registrar &raquo;</a></p>
+      <div class="col-md-3 card">
+        <h2>Completar encuesta</h2>
       </div>
-
+      <div class="col-md-3 card">
+        <h2>Calificar atención</h2>
+      </div>
     </div>
 
-    <div class="row" *ngIf="this.seleccionado">
-        <app-registro [tipo]='this.tipo'></app-registro>
-      </div>
-
+    <hr>
 
   </div> <!-- /container -->
 
+</main>
 
 
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
+      
   </body>
-</html>
+

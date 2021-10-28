@@ -1,27 +1,41 @@
-# Clinica
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.3.
+# Clinica Online 
+## Agustin Bernheim
 
-## Development server
+## Bienvenida
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### En esta seccion, el usuario puede ingresar al sistema, registrarse y luego de hacerlo, ver a las demas secciones que puede acceder
 
-## Code scaffolding
+![App Screenshot](./src/assets/fotosReadme/bienvenida)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Registro
 
-## Build
+#### Primero debe seleccionar que tipo de usuario quiere registrar, luego completar el formulario y el captcha para poder registrarlo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![App Screenshot](./src/assets/fotosReadme/registro)
+![App Screenshot](./src/assets/fotosReadme/registro2)
 
-## Running unit tests
+## Login
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Esta seccion cuenta con tres accesos rapidos para los tipos de usuario, valida que el usuario haya verificado su email, y haya sido aprobado por un administrador en caso de ser especialista
 
-## Running end-to-end tests
+![App Screenshot](./src/assets/fotosReadme/login)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Perfil
 
-## Further help
+#### Puede verse la foto del usuario y todos sus datos, en caso de ser especialista, puede seleccionar dias y horarios en los que atiende
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![App Screenshot](./src/assets/fotosReadme/perfil)
+![App Screenshot](./src/assets/fotosReadme/perfilEspecialista)
+
+## Seccion usuarios
+
+#### Seccion exclusiva para usuarios administradores, a la izquierda cuenta con una lista de los usuarios registrados y a la derecha tiene la posibilidad de registrar nuevos usuarios
+
+![App Screenshot](./src/assets/fotosReadme/seccionUsuarios)
+
+## Solicitar turno
+
+#### En esta pagina, el paciente puede soliciar un turno que este disponible con el especialista que desee
+
+![App Screenshot](./src/assets/fotosReadme/solicitarTurno)

@@ -1,0 +1,70 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container card">
+  <form [formGroup]="form" (ngSubmit)="agregarTurno()">
+    <div class="row">
+      <div class="col-md-12 mb-5">
+        <h2>Soliciar turno</h2>
+      </div>
+    </div>
+    <div class="row formulario">
+      <div class="col-md-6 mb-3">
+        <label for="especialidad" class="form-label">Especialidad</label>
+        <select class="form-select" id="especialidad" formControlName="especialidad" (change)="seleccionEspecialidad($event)">
+        <option value="">Seleccione una especialidad</option>
+          <option *ngFor="let item of especialidadesBD" value="{{item.especialidad}}">{{item.especialidad}}</option>
+        </select>
+        <small class="text-danger" *ngIf="form.controls.especialidad.errors?.required && form.controls.especialidad.touched">La especialidad es requerida</small>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="especialidad" class="form-label">Especialista</label>
+        <select class="form-select" id="especialista" formControlName="especialista" (change)="seleccionEspecialista($event)">
+        <option value="">Seleccione un especialista</option>
+          <option *ngFor="let item of arrEspecialistasValidos" value="{{item.nombre + ' ' + item.apellido}}">{{item.nombre + ' ' + item.apellido}}</option>
+        </select>
+        <small class="text-danger" *ngIf="form.controls.especialista.errors?.required && form.controls.especialista.touched">El especialista es requerido</small>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="fechaTurno" class="form-label">Dia y horario del turno</label>
+        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5px" (click)="seleccionFechaTurno()" [disabled]="this.especialidadSeleccionada == null || this.especialistaSeleccionado == null || seleccionarFecha || seleccionarDia || seleccionarHora">Seleccionar</button>
+        <small>{{this.fechaInput}}</small>
+        <small class="text-danger" *ngIf="form.controls.fechaTurno.errors?.required && form.controls.fechaTurno.touched">La fecha del turno es requerida</small>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px" [disabled]="form.invalid">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row" style="margin-top: 20px">
+  <div class="col-md-4" *ngIf="seleccionarFecha || seleccionarDia || seleccionarHora"></div>
+
+  <div class="col-md-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarDia">
+  
+    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of this.especialistaSeleccionado.dias" (click)="seleccionDia(item)">{{item}}</button>
+  
+  </div>
+  
+  <div class="col-md-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarFecha && !seleccionarDia">
+  
+    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of fechasValidas" (click)="seleccionFecha(item)">{{item}}</button>
+  
+  </div>
+  
+  <div class="col-md-4  card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarHora && !seleccionarDia">
+  
+    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of horasValidas" (click)="seleccionHora(item)">{{item}}</button>
+  
+  </div>
+  
+  <div class="col-md-4" *ngIf="seleccionarFecha || seleccionarDia || seleccionarHora"></div>
+</div>
+

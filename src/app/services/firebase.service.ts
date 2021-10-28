@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Admin } from '../clases/admin';
 import { Especialista } from '../clases/especialista';
 import { Paciente } from '../clases/paciente';
+import { Turno } from '../clases/turno';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,17 @@ export class FirebaseService {
 
   uploadFile(filePath : string, file : any){
     return this.storage.upload(filePath, file);
+  }
+
+  subirEspecialidad(especialidad : string){
+    this.firestore.collection('especialidades').add({
+      especialidad : especialidad
+    })
+    .then((respuesta) => {
+      console.log(respuesta);
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 
   subirPaciente(paciente : Paciente){
@@ -40,6 +52,15 @@ export class FirebaseService {
 
   subirAdmin(admin : Admin){
     this.firestore.collection('usuarios').add(admin)
+    .then((respuesta) => {
+      console.log(respuesta);
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  subirTurno(turno : Turno){
+    this.firestore.collection('turnos').add(turno)
     .then((respuesta) => {
       console.log(respuesta);
     }).catch((err) => {

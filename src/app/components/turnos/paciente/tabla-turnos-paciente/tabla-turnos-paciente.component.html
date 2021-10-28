@@ -1,0 +1,28 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+            <th>DIA</th>
+            <th>HORA</th>
+            <th>ESPECIALISTA</th>
+            <th>ESPECIALIDAD</th>
+            <th>CANCELAR</th>
+            <th>VER RESEÑA</th>
+            <th>COMPLETAR ENCUESTA</th>
+            <th>CALIFICAR ATENCION</th>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let item of turnosValidos">   
+            <td>{{item.dia}}</td>
+            <td>{{item.hora}}</td>
+            <td>{{item.especialista}}</td>
+            <td>{{item.especialidad}}</td>
+            <td><button class="btn btn-danger" *ngIf="item.realizado == null">Cancelar</button></td>
+            <td><button class="btn btn-warning" *ngIf="item.resena != null">Ver reseña</button></td>
+            <td><button class="btn btn-primary">Completar encuesta</button></td>
+            <td><button class="btn btn-success">Calificar atencion</button></td>
+        </tr>   
+
+        </tbody>
+        </table>
+    </div>

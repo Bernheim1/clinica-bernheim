@@ -1,0 +1,77 @@
+<section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-12 col-xl-4">
+  
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body text-center">
+              <div class="mt-3 mb-4">
+                <img
+                  [src]="auth.currentUser.fotoPerfil"
+                  class="rounded-circle img-fluid" style="width: 150px; height: 150px;"
+                />
+                <img *ngIf="auth.currentUser.tipo == 'paciente'"
+                [src]="auth.currentUser.fotoPerfil2"
+                class="rounded-circle img-fluid" style="width: 150px; height: 150px; margin-left: 10px;"
+              />
+              </div>
+              <h4 class="mb-2">{{auth.currentUser.nombre + ' ' + auth.currentUser.apellido}}</h4>
+              <p class="text-muted mb-4">{{auth.currentUser.tipo}}<span class="mx-2">|</span> <a >{{auth.currentUser.mail}}</a></p>
+              <button type="button" class="btn btn-primary btn-rounded btn-lg" *ngIf="auth.currentUser.tipo == 'especialista'" (click)="misHorarios()">
+                Mis horarios
+              </button>
+              <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                <div>
+                  <p class="mb-2 h5">DNI</p>
+                  <p class="text-muted mb-0">{{auth.currentUser.dni}}</p>
+                </div>
+                <div class="px-3">
+                  <p class="mb-2 h5">EDAD</p>
+                  <p class="text-muted mb-0">{{auth.currentUser.edad}}</p>
+                </div>
+                <div *ngIf="auth.currentUser.tipo == 'especialista'">
+                    <p class="mb-2 h5">ESPECIALIDADES</p>
+                    <p class="text-muted mb-0" *ngFor="let item of this.usuario?.especialidades">{{item}}</p>
+                  </div>
+              </div>
+              <div class="d-flex justify-content-between text-center mt-5 mb-2" *ngIf="auth.currentUser.tipo == 'especialista' && usuario?.dias != null">
+                <div class="px-3">
+                  <p class="mb-2 h5">DIAS</p>
+                  <p class="text-muted mb-0">{{usuario.dias}}</p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between text-center mt-5 mb-2" *ngIf="auth.currentUser.tipo == 'especialista' && usuario?.horarios != null">
+                <div class="px-3">
+                  <p class="mb-2 h5">HORARIOS</p>
+                  <p class="text-muted mb-0">{{usuario.horarios}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 col-xl-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
+          <div class="row">
+            <div class="col-md-6" style="margin-top: 5px" *ngFor="let item of arrHorarios">   
+              <button type="button" class="btn btn-block btn-primary" (click)="seleccionHorario(item)">{{item}}</button>
+            </div>   
+            
+          </div>
+        </div>
+        <div class="col-md-12 col-xl-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
+
+          <button type="button" class="btn btn-block btn-primary" *ngFor="let item of arrDias"(click)="seleccionDia(item)">{{item}}</button>
+
+          <h4 class="mb-2">Dias seleccionados</h4>
+          <p>{{arrDiasEspecialista}}</p>
+
+          <h4 class="mb-2">Horarios seleccionados</h4>
+          <p>{{arrHorariosEspecialista}}</p>
+
+          <button type="button" class="btn btn-block btn-primary" (click)="enviarHorarios()">Seleccionar horarios</button>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+  <div class="fullscreen-bg"></div>

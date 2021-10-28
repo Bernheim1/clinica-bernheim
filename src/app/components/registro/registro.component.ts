@@ -21,6 +21,9 @@ export class RegistroComponent implements OnInit {
   especialidades : any;
   especialidadesBD : any;
   event : any;
+  arrEspecialidades : any[] = [];
+  captchaValido : boolean = false;
+  numCaptcha : any;
 
   @Input() set tipo(value : any){
     this.tipoUsuario = value;
@@ -48,6 +51,7 @@ export class RegistroComponent implements OnInit {
     this.especialidades.subscribe((especialidades : any) => {
       this.especialidadesBD = especialidades;
     });
+    this.generarCaptcha();
   }
 
   private validadorDeEspacios(control : AbstractControl) : null | object {
@@ -84,7 +88,7 @@ export class RegistroComponent implements OnInit {
       'apellido': ['', Validators.required],
       'edad': ['', [Validators.required, Validators.min(1), Validators.max(150)]],
       'dni': ['', [Validators.required, Validators.min(11111111), Validators.max(99999999)]],
-      'especialidad': ['', Validators.required],
+      'especialidades': ['', Validators.required],
       'mail': ['', [Validators.required, Validators.email]],
       'contrasena': ['', Validators.required],
       'fotoPerfil': ['', Validators.required],
@@ -120,6 +124,8 @@ export class RegistroComponent implements OnInit {
       }else{
         if(this.tipoUsuario == 'especialista'){
           let especialista : Especialista = this.grupoDeControles.getRawValue();
+          especialista.especialidades = this.arrEspecialidades;
+          this.agregarEspecialidad(especialista.especialidades);
           this.subirEspecialista(especialista);
         }else{
           let admin : Admin = this.grupoDeControles.getRawValue();
@@ -139,8 +145,46 @@ export class RegistroComponent implements OnInit {
         
       }
     });
-
     
+  }
+
+  async agregarEspecialidad(especialidades : any){
+    
+    let flag : boolean = false;
+
+    for(let especialidad of especialidades){
+
+      flag = false;
+
+      for(let item of this.especialidadesBD){
+        if(item == especialidad){
+          flag = true;
+        }
+      }
+      
+      if(!flag){
+        await this.firebase.subirEspecialidad(especialidad);
+      }
+    }
+
+  }
+
+  sumarEspecialidades(){
+    let aux = (<HTMLInputElement> document.getElementById('especialidad')).value
+    let flag : boolean = false;
+    
+    for(let item of this.arrEspecialidades){
+      if(item == aux){
+        flag = true;
+      }
+    }
+
+    if(!flag){
+      this.arrEspecialidades.push(aux);
+      console.log(this.arrEspecialidades)
+    }
+
+    (<HTMLInputElement> document.getElementById('especialidad')).value = ''
   }
 
   uploadFile(event : Event) {
@@ -204,5 +248,21 @@ export class RegistroComponent implements OnInit {
       this.firebase.subirAdmin(admin);
     });
   }
+
+  generarCaptcha(){
+    let aux = Math.round(Math.random() * (9999 - 1111));
+    this.numCaptcha = aux;
+  }
+
+  validarCaptcha(event : any){
+    let aux : any = event.target.value;
+
+    if(aux == this.numCaptcha){
+      this.captchaValido = true;
+    }else{
+      this.captchaValido = false;
+    }
+  }
+
 
 }

@@ -49,16 +49,19 @@ export class LoginComponent implements OnInit {
       }
 
       if(data.user._delegate.emailVerified){
+
         if(auxUsuario.tipo == 'especialista' && auxUsuario.cuentaVerificada){
           this.auth.currentUser = auxUsuario;
+          this.auth.isLoggedIn = true;
           this.router.navigate(['']);
-        }else{
+        }else if(auxUsuario.tipo == 'especialista' && !auxUsuario.cuentaVerificada){
           this.utilidades.mostrarToastError('Usuario no verificado', 'Un administrador debe verificar su cuenta');
           this.auth.signOut();
         }
 
         if(auxUsuario.tipo == 'paciente' || auxUsuario.tipo == 'admin') {
           this.auth.currentUser = auxUsuario;
+          this.auth.isLoggedIn = true;
           this.router.navigate(['']);
         }
 
@@ -78,6 +81,24 @@ export class LoginComponent implements OnInit {
 
       }
     })
+  }
+
+  loginValido(opcion : string) {
+
+      switch(opcion) {
+        case 'paciente': 
+          this.grupoDeControles.get('mail')?.setValue('agustin_ber@hotmail.com');
+          this.grupoDeControles.get('contrasena')?.setValue('asd123');
+          break;
+        case 'especialista':
+          this.grupoDeControles.get('mail')?.setValue('agustinbernheim8@gmail.com');
+          this.grupoDeControles.get('contrasena')?.setValue('asd123');
+          break;
+        case 'admin':
+          this.grupoDeControles.get('mail')?.setValue('agustinbernheim@outlook.com');
+          this.grupoDeControles.get('contrasena')?.setValue('asd123');
+          break;
+      }
   }
   
 }
