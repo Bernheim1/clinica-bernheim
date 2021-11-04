@@ -39,7 +39,7 @@
   </head>
     <br>
     <br>
-<div class="container card" style="margin-top: 200px; padding: 20px">
+<div class="container card" style="margin-top: 100px; padding: 20px">
   <div class="py-5 text-center">
     <h2>Login</h2>
   </div>
@@ -64,15 +64,53 @@
           <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="grupoDeControles.invalid">Ingresar</button>
         </form>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.loginValido('paciente')">Paciente</button>
+  </div>
+</div>
+<div class="container">
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of arrPaciente">
+      <div class="card" style="border-radius: 15px; padding: 10px;">
+        <h4>Paciente</h4>
+        <div class="d-flex justify-content-center">
+          <img
+          [src]="item.fotoPerfil"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+          <button type="button" class="btn btn-primary btn-lg text-white" (click)="this.loginValido(item)">Ingresar</button>
+        </div>
       </div>
-      <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.loginValido('especialista')">Especialista</button>
+    </div>
+    <div style="justify-content: center ;width: 18rem; margin-top: 20px;" *ngFor="let item of arrEspecialista">
+      <div class="card" style="border-radius: 15px; padding: 10px">
+        <h4>Especialista</h4>
+        <div class="d-flex justify-content-center">
+          <img
+          [src]="item.fotoPerfil"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+          <button type="button" class="btn btn-primary btn-lg text-white" (click)="this.loginValido(item)">Ingresar</button>
+        </div>
       </div>
-      <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.loginValido('admin')">Admin</button>
+    </div>
+    <div style="justify-content: center; width: 18rem; margin-top: 20px; margin-bottom: 20px;" *ngFor="let item of arrAdmin">
+      <div class="card" style="border-radius: 15px; padding: 10px">
+        <h4>Administrador</h4>
+        <div class="d-flex justify-content-center">
+          <img
+          [src]="item.fotoPerfil"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+          <button type="button" class="btn btn-primary btn-lg text-white" (click)="this.loginValido(item)">Ingresar</button>
+        </div>
       </div>
     </div>
   </div>

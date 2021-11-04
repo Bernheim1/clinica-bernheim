@@ -1,0 +1,53 @@
+<div class="container card" style="padding: 20px; margin-top: 30px; border-radius: 15px;">
+  <div class="row justify-content-center">
+    <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarPaciente('mostrarTodos')">Mostrar todos</button>
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarPaciente('mostrarTodos')">Mostrar todos</button>
+          </div>
+    </div>
+    <div class="row">
+      <div class="d-flex gap-4" style="margin-top: 5px;">
+        <h6>Especialistas: </h6>
+        <button class="btn btn-primary btn-sm" (click)="this.cambiarPaciente(item)" *ngFor="let item of arrPacientesValidos">{{item}}</button>
+    </div>
+    </div>
+    <div class="row">
+            <div  class="d-flex gap-4" style="margin-top: 5px;">
+                <h6>Especialidades: </h6>
+                <button class="btn btn-primary btn-sm" (click)="this.cambiarEspecialidad(item)" *ngFor="let item of arrEspecialidadesValidas">{{item}}</button>
+            </div>
+        </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row mx-0" style="justify-content: center;">
+      <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of turnosAMostrar">
+        <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+          <h4>Turno</h4>
+          <div class="card-body">
+            <h4 class="card-title">{{item.dia + ' ' + item.hora}}</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Especialidad: {{item.especialidad}}</li>
+              <li class="list-group-item">Paciente: {{item.paciente}}</li>
+              <li class="list-group-item" *ngIf="!item.aceptado && !item.cancelado && !item.realizado && !item.rechazado">Estado: Sin aceptar</li>
+              <li class="list-group-item" *ngIf="item.aceptado && !item.cancelado && !item.realizado && !item.rechazado">Estado: Aceptado</li>
+              <li class="list-group-item" *ngIf="item.cancelado">Estado: Cancelado</li>
+              <li class="list-group-item" *ngIf="item.cancelado && item.comentarioCancelado != null">Comentario: {{item.comentarioCancelado}}</li>
+              <li class="list-group-item" *ngIf="item.realizado">Estado: Realizado</li>
+              <li class="list-group-item" *ngIf="item.rechazado">Estado: Rechazado</li>
+              <li class="list-group-item" *ngIf="item.rechazado && item.comentarioRechazado != null">Comentario: {{item.comentarioRechazado}}</li>
+            </ul>
+            <button type="button" class="btn btn-success btn-lg text-white" style="margin: 5px" (click)="this.aceptarTurno(item)" *ngIf="!item.realizado && !item.cancelado && !item.rechazado && !item.aceptado">Aceptar</button>
+            <button type="button" class="btn btn-danger btn-lg text-white" style="margin: 5px" (click)="this.cancelarTurno(item)" *ngIf="!item.realizado && !item.cancelado && !item.rechazado && !item.aceptado">Cancelar</button>
+            <button type="button" class="btn btn-warning btn-lg text-white" style="margin: 5px" (click)="this.rechazarTurno(item)" *ngIf="!item.realizado && !item.cancelado && !item.rechazado && !item.aceptado">Rechazar</button>
+            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.finalizarTurno(item)" *ngIf="!item.realizado && !item.cancelado && !item.rechazado && item.aceptado">Finalizar</button>
+            <button type="button" class="btn btn-info btn-lg text-white" style="margin: 5px" (click)="this.verResena(item)" *ngIf="item.resena != null">Ver reseña</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

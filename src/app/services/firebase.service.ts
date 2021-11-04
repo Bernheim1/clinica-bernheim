@@ -72,4 +72,8 @@ export class FirebaseService {
     return this.firestore.collection('usuarios').doc(id).update(object);
   }
 
+  modificarTurno(object : any, id : any){
+    return this.firestore.collection('turnos').doc(id).update(object);
+  }
+
 }

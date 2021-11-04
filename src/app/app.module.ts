@@ -24,6 +24,20 @@ import { TurnosPacienteComponent } from './components/turnos/paciente/turnos-pac
 import { TablaTurnosPacienteComponent } from './components/turnos/paciente/tabla-turnos-paciente/tabla-turnos-paciente.component';
 import { AltaTurnoComponent } from './components/turnos/alta/alta-turno/alta-turno.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { CancelarTurnoComponent } from './components/turnos/paciente/cancelar-turno/cancelar-turno.component';
+import { VerResenaComponent } from './components/turnos/paciente/ver-resena/ver-resena.component';
+import { CompletarEncuestaComponent } from './components/turnos/paciente/completar-encuesta/completar-encuesta.component';
+import { CalificarAtencionComponent } from './components/turnos/paciente/calificar-atencion/calificar-atencion.component';
+import { TurnosEspecialistaComponent } from './components/turnos/especialista/turnos-especialista/turnos-especialista.component';
+import { CancelarTurnoEspecialistaComponent } from './components/turnos/especialista/cancelar-turno-especialista/cancelar-turno-especialista.component';
+import { RechazarTurnoEspecialistaComponent } from './components/turnos/especialista/rechazar-turno-especialista/rechazar-turno-especialista.component';
+import { FinalizarTurnoEspecialistaComponent } from './components/turnos/especialista/finalizar-turno-especialista/finalizar-turno-especialista.component';
+import { VerResenaTurnoEspecialistaComponent } from './components/turnos/especialista/ver-resena-turno-especialista/ver-resena-turno-especialista.component';
+import { TablaTurnosEspecialistaComponent } from './components/turnos/especialista/tabla-turnos-especialista/tabla-turnos-especialista.component';
+import { TablaTurnosAdministradorComponent } from './components/turnos/administrador/tabla-turnos-administrador/tabla-turnos-administrador.component';
+import { CancelarTurnoAdministradorComponent } from './components/turnos/administrador/cancelar-turno-administrador/cancelar-turno-administrador.component';
+import { TurnosAdministradorComponent } from './components/turnos/administrador/turnos-administrador/turnos-administrador.component';
+import { SeccionPacientesComponent } from './components/seccion-pacientes/seccion-pacientes.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +51,21 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     TurnosPacienteComponent,
     TablaTurnosPacienteComponent,
     AltaTurnoComponent,
-    PerfilComponent
+    PerfilComponent,
+    CancelarTurnoComponent,
+    VerResenaComponent,
+    CompletarEncuestaComponent,
+    CalificarAtencionComponent,
+    TurnosEspecialistaComponent,
+    CancelarTurnoEspecialistaComponent,
+    RechazarTurnoEspecialistaComponent,
+    FinalizarTurnoEspecialistaComponent,
+    VerResenaTurnoEspecialistaComponent,
+    TablaTurnosEspecialistaComponent,
+    TablaTurnosAdministradorComponent,
+    CancelarTurnoAdministradorComponent,
+    TurnosAdministradorComponent,
+    SeccionPacientesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { UtilidadesService } from 'src/app/services/utilidades.service';
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -12,24 +15,33 @@ export class TablaUsuariosComponent implements OnInit {
   tipo : any = 'paciente';
   coleccion : any;
   usuarios : any;
+  usuariosBD : any;
   
   arrAdmin : any[] = [];
   arrPaciente : any[] = [];
   arrEspecialista : any[] = [];
   arrAux : any[] = [];
 
-  constructor(private db : AngularFirestore, private firebase : FirebaseService) { 
+  mostrarUsuarios : boolean = true;
+  mostrarHistoriaClinica : boolean = false;
+  pacienteSeleccionado : any;
+
+  constructor(private db : AngularFirestore, private firebase : FirebaseService, private utilidades : UtilidadesService) { 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
   }
 
   ngOnInit(): void {
     this.usuarios.subscribe((usuarios : any) => {
-      this.arrAdmin = [];
-      this.arrPaciente = [];
-      this.arrEspecialista = [];
+      this.usuariosBD = usuarios;
+      this.validarUsuarios();
+    });
+  }
 
-      for(let item of usuarios){
+  validarUsuarios(){
+
+    if(this.arrAux.length == 0){
+      for(let item of this.usuariosBD){
         if(item.tipo == 'paciente'){
           this.arrPaciente.push(item);
         }else if(item.tipo == 'especialista'){
@@ -40,7 +52,37 @@ export class TablaUsuariosComponent implements OnInit {
       }
 
       this.arrAux = this.arrPaciente;
-    });
+    }else{
+      let arrPacienteAux : any[] = [];
+      let arrEspecialistaAux : any[] = [];
+      let arrAdminAux : any[] = [];
+
+      for(let item of this.usuariosBD){
+        if(item.tipo == 'paciente'){
+          arrPacienteAux.push(item);
+        }else if(item.tipo == 'especialista'){
+          arrEspecialistaAux.push(item);
+        }else{
+          arrAdminAux.push(item);
+        }
+      }
+
+      if(this.arrPaciente != arrPacienteAux){
+        this.arrPaciente = arrPacienteAux;
+      }
+      
+      if(this.arrEspecialista != arrEspecialistaAux){
+        this.arrEspecialista = arrEspecialistaAux;
+      }
+
+      if(this.arrAdmin != arrAdminAux){
+        this.arrAdmin = arrAdminAux;
+      }
+    }
+
+
+
+    
   }
 
   cambiarVista(opcion : any){
@@ -64,4 +106,55 @@ export class TablaUsuariosComponent implements OnInit {
     especialista.cuentaVerificada = !especialista.cuentaVerificada;
     this.firebase.modificarUsuario(especialista, especialista.id);
   }
+
+  seleccionarPaciente(item : any){
+    this.pacienteSeleccionado = item;
+    this.mostrarUsuarios = false;
+    this.mostrarHistoriaClinica = true;
+  }
+
+  cerrarHistoriaClinica(){
+    this.mostrarHistoriaClinica = false;
+    this.mostrarUsuarios = true;
+  }
+
+  descargarExcel(){
+
+    let arrTodos : any[] = [];
+
+    for(let item of this.arrPaciente){
+      arrTodos.push(item);
+    }
+
+    for(let item of this.arrEspecialista){
+      arrTodos.push(item);
+    }    
+
+    for(let item of this.arrAdmin){
+      arrTodos.push(item);
+    }
+
+
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Usuarios");
+
+    let header = ["Nombre", "Apellido", "DNI", "Edad", "Correo", "Perfil"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of arrTodos) {
+      let auxRow = [item.nombre ,  item.apellido , item.dni , item.edad , item.mail , item.tipo ];
+
+      worksheet.addRow(auxRow);
+    }
+
+    let fileName = "UsuariosClinica";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+      this.utilidades.mostrarToastSuccess('Archivo descargado', 'El archivo excel con todos los usuarios fue descargado');
+    });
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-seleccion-registro',
@@ -11,9 +12,10 @@ export class SeleccionRegistroComponent implements OnInit {
   seleccionado : boolean = false;
   @Input() admin : boolean = false;
 
-  constructor() { }
+  constructor(private auth : AuthService) { }
 
   ngOnInit(): void {
+    this.verificarAdmin();
   }
 
   seleccionTipo(opcion : string){
@@ -27,6 +29,12 @@ export class SeleccionRegistroComponent implements OnInit {
       }
     }
     this.seleccionado = true;
+  }
+
+  verificarAdmin(){
+    if(this.auth.currentUser?.tipo == 'admin'){
+      this.admin = true;
+    }
   }
 
 }

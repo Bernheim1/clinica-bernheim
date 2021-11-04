@@ -7,19 +7,23 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paginas</a>
+        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Paginas</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href=" ">Bienvenida</a>
+          <a class="dropdown-item" [routerLink]="['/']">Bienvenida</a>
           <a class="dropdown-item" [routerLink]="['/login']">Login</a>
           <a class="dropdown-item" [routerLink]="['/registro']">Registro</a>
           <a class="dropdown-item" [routerLink]="['/perfil']" *ngIf="this.auth.currentUser != null">Perfil</a>
-          <a class="dropdown-item" [routerLink]="['/turnos/paciente']" *ngIf="this.auth.currentUser != null">Turnos</a>
-          <a class="dropdown-item" [routerLink]="['/admin/seccionUsuarios']" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">Seccion Usuarios</a>
+          <a class="dropdown-item" [routerLink]="['/turnos/paciente']" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente'">Mis turnos</a>
+          <a class="dropdown-item" [routerLink]="['/turnos/especialista']" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'especialista'">Mis turnos</a>
+          <a class="dropdown-item" [routerLink]="['/turnos/admin']" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'admin'">Turnos</a>
+          <a class="dropdown-item" [routerLink]="['/admin/seccionUsuarios']" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">Seccion usuarios</a>
+          <a class="dropdown-item" [routerLink]="['/especialista/seccionPacientes']" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'especialista'">Seccion pacientes</a>
           <a class="dropdown-item" [routerLink]="['/turnos/alta']" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'paciente'">Soliciar turno</a>
         </div>
       </li>
     </ul>
   </div>
-  <a *ngIf="this.auth.currentUser != null" style="color: #fff">Usuario: {{this.auth.currentUser.mail}}</a>
+  <button *ngIf="this.auth.currentUser != null" style="color: #fff" class="btn" (click)="this.auth.signOut()">LogOut</button>
+  <a *ngIf="this.auth.currentUser != null" style="color: #fff">Usuario: {{this.auth.currentUser.nombre + ' ' + this.auth.currentUser.apellido}}</a>
 </nav>
 <router-outlet></router-outlet>

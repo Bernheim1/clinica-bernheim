@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Turno } from 'src/app/clases/turno';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { DatePipe } from '@angular/common';
+import { UtilidadesService } from 'src/app/services/utilidades.service';
 
 @Component({
   selector: 'app-alta-turno',
@@ -13,7 +13,6 @@ import { DatePipe } from '@angular/common';
 })
 export class AltaTurnoComponent implements OnInit {
 
-  public form !: FormGroup;
   coleccion : any;
   especialidades : any;
   especialidadesBD : any;
@@ -23,16 +22,12 @@ export class AltaTurnoComponent implements OnInit {
   usuariosBD : any;
   arrEspecialistas : any[] = [];
   arrEspecialistasValidos : any[] = [];
+  arrPacientes : any[] = [];
 
+  pacienteSeleccionado : any;
   especialistaSeleccionado : any;
   fechaSeleccionada : any;
   horaSeleccionada : any;
-
-  fechaInput : any;
-
-  seleccionarDia : boolean = false;
-  seleccionarFecha : boolean = false;
-  seleccionarHora : boolean = false;
 
   dias : any[] = [];
   diasValidos : any[] = [];
@@ -40,40 +35,58 @@ export class AltaTurnoComponent implements OnInit {
   horasValidas : any[] = [];
   fechasValidas : any[] = [];
 
-  constructor(private fb : FormBuilder, private db : AngularFirestore, private auth : AuthService, private firebase : FirebaseService, private datePipe : DatePipe){
+  mostrarPacientes : boolean = false;
+  mostrarEspecialidades : boolean = true;
+  mostrarEspecialistas : boolean = false;
+  mostrarDias : boolean = false;
+  mostrarFechas : boolean = false;
+  mostrarHoras : boolean = false;
+
+  constructor(private db : AngularFirestore, public auth : AuthService, private firebase : FirebaseService, private datePipe : DatePipe, private utilidades : UtilidadesService){
     this.coleccion = this.db.collection<any>('especialidades');
     this.especialidades = this.coleccion.valueChanges();
 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
+
   }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      'especialidad': ['', Validators.required],
-      'especialista': ['', Validators.required],
-      'fechaTurno': ['', Validators.required],
-    });
 
     this.especialidades.subscribe((especialidades : any) => {
       this.especialidadesBD = especialidades;
     });
 
-    this.usuarios.subscribe((especialidades : any) => {
-      this.usuariosBD = especialidades;
+    this.usuarios.subscribe((usuarios : any) => {
+      this.usuariosBD = usuarios;
+
+      if(this.auth.currentUser?.tipo == 'admin'){
+        this.usuariosPacientes();
+      }
       this.usuariosEspecialistas();
+      
     });
 
-    
   }
 
-  seleccionEspecialidad(event : any){
-    this.especialidadSeleccionada = event.target.value;
+  seleccionarPaciente(item : any){
+    this.pacienteSeleccionado = item;
+    this.mostrarPacientes = false;
+    this.mostrarEspecialidades = true;
+  }
+
+  seleccionarEspecialidad(item : any){
+    this.especialidadSeleccionada = item.especialidad;
+    this.mostrarEspecialidades = false;
+    this.mostrarEspecialistas = true;
     this.cambioEspecialidad();
   }
 
-  seleccionEspecialista(event : any){
-    this.especialistaSeleccionado = event.target.value;
+  seleccionarEspecialista(item : any){
+    this.especialistaSeleccionado = item;
+    this.mostrarEspecialistas = false;
+    this.mostrarDias = true;
+    this.seleccionFechaTurno();
   }
 
   cambioEspecialidad(){
@@ -88,11 +101,23 @@ export class AltaTurnoComponent implements OnInit {
     })
   }
 
+  usuariosPacientes(){
+    if(this.arrPacientes.length == 0){
+      for(let item of this.usuariosBD){
+        if(item.tipo == 'paciente'){
+          this.arrPacientes.push(item);
+        }
+      }
+    }
+    this.mostrarEspecialidades = false;
+    this.mostrarPacientes = true;
+  }
+
   usuariosEspecialistas(){
     if(this.arrEspecialistas.length == 0 && this.arrEspecialistasValidos.length == 0){
       for(let item of this.usuariosBD){
         if(item.tipo == 'especialista'){
-          if(item.cuentaVerificada){
+          if(item.cuentaVerificada && item.dias != null && item.horarios != null){
             this.arrEspecialistas.push(item);
             this.arrEspecialistasValidos.push(item);
           }
@@ -111,12 +136,6 @@ export class AltaTurnoComponent implements OnInit {
     }
 
     this.cargarFechas();
-
-    console.log(this.dias);
-    console.log(this.diasValidos);
-
-    this.seleccionarDia = true;
-
   }
 
   getFechasValidas(){
@@ -180,7 +199,7 @@ export class AltaTurnoComponent implements OnInit {
   }
 
   seleccionDia(opcion : any){
-    this.seleccionarDia = false
+    this.mostrarDias = false
 
     let aux : any;
     let fecha = new Date()
@@ -216,12 +235,12 @@ export class AltaTurnoComponent implements OnInit {
     }
 
     this.fechasValidas = retorno;
-    this.seleccionarFecha = true;
+    this.mostrarFechas = true;
   }
 
   seleccionFecha(opcion : any){
 
-    this.seleccionarFecha = false;
+    this.mostrarFechas = false;
 
     this.fechaSeleccionada = opcion;
     console.log(this.fechaSeleccionada);
@@ -249,31 +268,64 @@ export class AltaTurnoComponent implements OnInit {
 
     }
 
-    this.seleccionarHora = true;
+    this.mostrarHoras = true;
   }
 
   seleccionHora(opcion : any){
     this.horaSeleccionada = opcion;
-    this.seleccionarHora = false;
-    this.fechaInput = this.fechaSeleccionada + ' ' + this.horaSeleccionada;
+    this.mostrarHoras = false;
 
-    this.form.get('fechaTurno')?.setValue('true');
+    this.agregarTurno();
   }
 
   agregarTurno(){
-    let turno : Turno = {
-      dniPaciente : this.auth.currentUser.dni,
-      especialista : this.especialistaSeleccionado.nombre + ' ' + this.especialistaSeleccionado.apellido,
-      especialidad : this.especialidadSeleccionada,
-      dia : this.fechaSeleccionada,
-      hora : this.horaSeleccionada,
+
+    let turno : Turno;
+
+    if(this.auth.currentUser?.tipo == 'admin'){
+        turno  = {
+        dniPaciente : this.pacienteSeleccionado.dni,
+        paciente : this.pacienteSeleccionado.nombre + ' ' + this.pacienteSeleccionado.apellido,
+        dniEspecialista : this.especialistaSeleccionado.dni,
+        especialista : this.especialistaSeleccionado.nombre + ' ' + this.especialistaSeleccionado.apellido,
+        especialidad : this.especialidadSeleccionada,
+        dia : this.fechaSeleccionada,
+        hora : this.horaSeleccionada,
+        aceptado: false,
+        realizado: false,
+        rechazado: false,
+      }
+    }else{
+      turno  = {
+        dniPaciente : this.auth.currentUser.dni,
+        paciente : this.auth.currentUser.nombre + ' ' + this.auth.currentUser.apellido,
+        dniEspecialista : this.especialistaSeleccionado.dni,
+        especialista : this.especialistaSeleccionado.nombre + ' ' + this.especialistaSeleccionado.apellido,
+        especialidad : this.especialidadSeleccionada,
+        dia : this.fechaSeleccionada,
+        hora : this.horaSeleccionada,
+        aceptado: false,
+        realizado: false,
+        rechazado: false,
+      }
     }
+
     this.firebase.subirTurno(turno);
 
-    let auxTurno : any = {
-      dniPaciente : this.auth.currentUser.dni,
-      dia : this.fechaSeleccionada,
-      hora : this.horaSeleccionada,
+    let auxTurno : any;
+    
+    if(this.auth.currentUser?.tipo == 'admin'){
+      auxTurno  = {
+        dniPaciente : this.pacienteSeleccionado.dni,
+        dia : this.fechaSeleccionada,
+        hora : this.horaSeleccionada,
+      }
+    }else{
+      auxTurno  = {
+        dniPaciente : this.auth.currentUser.dni,
+        dia : this.fechaSeleccionada,
+        hora : this.horaSeleccionada,
+      }
     }
 
     console.log(this.especialistaSeleccionado)
@@ -287,9 +339,7 @@ export class AltaTurnoComponent implements OnInit {
     }
 
     this.firebase.modificarUsuario(this.especialistaSeleccionado, this.especialistaSeleccionado.id);
-
-    this.form.reset();
-    this.fechaInput = '';
+    this.utilidades.mostrarToastSuccess('Turno solicitado', 'Su turno ha sido solicitado');
   }
 
 }

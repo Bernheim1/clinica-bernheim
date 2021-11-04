@@ -39,10 +39,10 @@ export class RegistroComponent implements OnInit {
     }
   } 
 
-  public grupoDeControles !: FormGroup;
+  public form !: FormGroup;
 
   constructor(private fb : FormBuilder, private db : AngularFirestore, private firebase : FirebaseService, private utilidades : UtilidadesService, private auth : AuthService) {
-    this.grupoDeControles = this.fb.group({});
+    this.form = this.fb.group({});
     this.coleccion = this.db.collection<any>('especialidades');
     this.especialidades = this.coleccion.valueChanges();
   }
@@ -69,8 +69,8 @@ export class RegistroComponent implements OnInit {
   }
 
   inicializarPaciente(){
-    this.grupoDeControles = this.fb.group({
-      'nombre': ['', [Validators.required, this.validadorDeEspacios]],
+    this.form = this.fb.group({
+      'nombre': ['', Validators.required],
       'apellido': ['', Validators.required],
       'edad': ['', [Validators.required, Validators.min(1), Validators.max(150)]],
       'dni': ['', [Validators.required, Validators.min(11111111), Validators.max(99999999)]],
@@ -83,8 +83,8 @@ export class RegistroComponent implements OnInit {
   }
   
   inicializarEspecialista(){
-    this.grupoDeControles = this.fb.group({
-      'nombre': ['', [Validators.required, this.validadorDeEspacios]],
+    this.form = this.fb.group({
+      'nombre': ['', Validators.required],
       'apellido': ['', Validators.required],
       'edad': ['', [Validators.required, Validators.min(1), Validators.max(150)]],
       'dni': ['', [Validators.required, Validators.min(11111111), Validators.max(99999999)]],
@@ -98,8 +98,8 @@ export class RegistroComponent implements OnInit {
   }
 
   inicializarAdmin(){
-    this.grupoDeControles = this.fb.group({
-      'nombre': ['', [Validators.required, this.validadorDeEspacios]],
+    this.form = this.fb.group({
+      'nombre': ['', Validators.required],
       'apellido': ['', Validators.required],
       'edad': ['', [Validators.required, Validators.min(1), Validators.max(150)]],
       'dni': ['', [Validators.required, Validators.min(11111111), Validators.max(99999999)]],
@@ -112,27 +112,29 @@ export class RegistroComponent implements OnInit {
 
   agregarUsuario(){
 
-    let mail : any = this.grupoDeControles.get('mail')?.value;
-    let password : any = this.grupoDeControles.get('contrasena')?.value;
+    let mail : any = this.form.get('mail')?.value;
+    let password : any = this.form.get('contrasena')?.value;
 
     this.auth.register(mail, password).then((data : any) => {
       this.auth.enviarEmail();
 
       if(this.tipoUsuario == 'paciente'){
-        let paciente : Paciente = this.grupoDeControles.getRawValue();
+        let paciente : Paciente = this.form.getRawValue();
         this.subirPaciente(paciente);
       }else{
         if(this.tipoUsuario == 'especialista'){
-          let especialista : Especialista = this.grupoDeControles.getRawValue();
+          let especialista : Especialista = this.form.getRawValue();
           especialista.especialidades = this.arrEspecialidades;
           this.agregarEspecialidad(especialista.especialidades);
           this.subirEspecialista(especialista);
         }else{
-          let admin : Admin = this.grupoDeControles.getRawValue();
+          let admin : Admin = this.form.getRawValue();
           this.subirAdmin(admin);
         }
       }
-      this.grupoDeControles.reset();
+      this.form.reset();
+      (<HTMLInputElement> document.getElementById('captcha')).value = '';
+      this.utilidades.mostrarToastSuccess('Usuario registrado', 'Se le envio un mail de confirmacion');
     }).catch((error) => {
       
       if(error.code == 'auth/weak-password'){
@@ -157,7 +159,7 @@ export class RegistroComponent implements OnInit {
       flag = false;
 
       for(let item of this.especialidadesBD){
-        if(item == especialidad){
+        if(item == especialidad.especialidad){
           flag = true;
         }
       }

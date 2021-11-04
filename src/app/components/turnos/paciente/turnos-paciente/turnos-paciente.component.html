@@ -40,30 +40,33 @@
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <app-tabla-turnos-paciente></app-tabla-turnos-paciente>
+      <app-tabla-turnos-paciente (cancelar)="cancelarTurno($event)" (resena)="verResena($event)" (encuesta)="completarEncuesta($event)" (atencion)="calificarAtencion($event)"></app-tabla-turnos-paciente>
     </div>
   </div>
 
   <div class="container">
-    <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-3 card">
+      <div class="col-md-12 card" *ngIf="this.mostrarCancelar">
         <h2>Cancelar turno</h2>
+        <app-cancelar-turno [cancelar]="cancelar"></app-cancelar-turno>
       </div>
-      <div class="col-md-3 card">
+      <div class="col-md-12 card" *ngIf="this.mostrarResena">
         <h2>Ver reseña</h2>
+        <app-ver-resena [resena]="resena"></app-ver-resena>
       </div>
-      <div class="col-md-3 card">
+      <div class="col-md-12 card" *ngIf="this.mostrarEncuesta">
         <h2>Completar encuesta</h2>
+        <app-completar-encuesta [encuesta]="encuesta"></app-completar-encuesta>
       </div>
-      <div class="col-md-3 card">
+      <div class="col-md-12 card" *ngIf="this.mostrarAtencion">
         <h2>Calificar atención</h2>
+        <app-calificar-atencion [atencion]="atencion"></app-calificar-atencion>
       </div>
     </div>
 
     <hr>
 
-  </div> <!-- /container -->
+  </div> 
 
 </main>
 

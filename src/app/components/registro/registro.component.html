@@ -1,130 +1,96 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.80.0">
-    <title>Checkout example · Bootstrap v4.6</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/checkout/">
-
-    
-
-
-
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-
-  </head>
-    <br>
-    <br>
 <div class="container card">
-  <div class="py-5 text-center">
-    <h2>Registro {{this.tipoUsuario}}</h2>
-  </div>
-
-  <div class="row">
-      <div class="col-md-12 order-md-1">
-        <h4 class="mb-3">Alta {{this.tipoUsuario}}</h4>
-        <form class="needs-validation" novalidate [formGroup]="grupoDeControles" (ngSubmit)="this.agregarUsuario()">
-          <div class="row">
-            <div class="col-md-6 mb-3">
+  <div class="row d-flex">
+    <div class="col-md-12">
+        <form [formGroup]="form" (ngSubmit)="this.agregarUsuario()">
+            <div class="col-md-6">
               <label for="nombre">Nombre</label>
               <input type="text" class="form-control" formControlName="nombre" placeholder="" value="" required>
-              <small *ngIf="grupoDeControles.controls.nombre.errors?.required && grupoDeControles.controls.nombre.touched" class="text-danger">El nombre es requerido</small>
-              <small *ngIf="grupoDeControles.controls.nombre.errors?.validadorDeEspacios && grupoDeControles.controls.nombre.touched" class="text-danger">El nombre contiene espacios</small>
+              <small *ngIf="form.controls.nombre.errors?.required && form.controls.nombre.touched" class="text-danger">El nombre es requerido</small>
             </div>
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-6">
               <label for="apellido">Apellido</label>
               <input type="text" class="form-control" formControlName="apellido" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.apellido.errors?.required && grupoDeControles.controls.apellido.touched">El apellido es requerido</small>
+              <small class="text-danger" *ngIf="form.controls.apellido.errors?.required && form.controls.apellido.touched">El apellido es requerido</small>
             </div>
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-6">
               <label for="edad">Edad</label>
               <input type="number" class="form-control" formControlName="edad" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.edad.errors?.required && grupoDeControles.controls.edad.touched">La edad es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.edad.errors?.required && form.controls.edad.touched">La edad es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.edad.errors?.min || form.controls.edad.errors?.max && form.controls.dni.touched">La edad debe estar entre 1 y 150</small>
             </div>
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-6">
               <label for="dni">DNI</label>
               <input type="number" class="form-control" formControlName="dni" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.dni.errors?.required && grupoDeControles.controls.dni.touched">El DNI es requerido</small>
+              <small class="text-danger" *ngIf="form.controls.dni.errors?.required && form.controls.dni.touched">El DNI es requerido</small>
+              <small class="text-danger" *ngIf="form.controls.dni.errors?.min || form.controls.dni.errors?.max && form.controls.dni.touched">El DNI no es valido</small>
             </div>
-            <div class="col-md-6 mb-3" *ngIf="this.tipoUsuario === 'paciente'">
+            
+            <div class="col-md-6" *ngIf="this.tipoUsuario === 'paciente'">
               <label for="obraSocial">Obra social</label>
               <input type="text" class="form-control" formControlName="obraSocial" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.obraSocial.errors?.required && grupoDeControles.controls.obraSocial.touched">La obra social es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.obraSocial.errors?.required && form.controls.obraSocial.touched">La obra social es requerida</small>
             </div>
-            <div class="col-md-6 mb-3" *ngIf="this.tipoUsuario == 'especialista'">
+
+            <div class="col-md-6" *ngIf="this.tipoUsuario == 'especialista'">
               <label for="especialidad">Especialidades</label>
               <input type="text" class="form-control" id="especialidad" formControlName="especialidades" list="especialidades" autocomplete="off">
                     <datalist id="especialidades">
                         <option *ngFor="let item of especialidadesBD" value="{{item.especialidad}}">
                       </datalist>
-              <button class="btn btn-primary btn-sm" (click)="sumarEspecialidades()">Agregar</button>
+              <button type="button" class="btn btn-primary btn-sm" (click)="sumarEspecialidades()">Agregar</button>
               <small>{{this.arrEspecialidades}}</small>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.especialidades.errors?.required && grupoDeControles.controls.especialidades.touched">La especialidad es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.especialidades.errors?.required && form.controls.especialidades.touched">La especialidad es requerida</small>
             </div>
-            <div class="col-md-6 mb-3">
+            
+            <div class="col-md-6">
               <label for="mail">Mail</label>
               <input type="text" class="form-control" formControlName="mail" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.mail.errors?.required && grupoDeControles.controls.mail.touched">El mail es requerido</small>
+              <small class="text-danger" *ngIf="form.controls.mail.errors?.required && form.controls.mail.touched">El mail es requerido</small>
             </div>
-            <div class="col-md-6 mb-3">
+
+            <div class="col-md-6">
               <label for="contrasena">Contraseña</label>
               <input type="password" class="form-control" formControlName="contrasena" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.contrasena.errors?.required && grupoDeControles.controls.contrasena.touched">La contrasena es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.contrasena.errors?.required && form.controls.contrasena.touched">La contrasena es requerida</small>
             </div>
-            <div class="col-md-6 mb-3" *ngIf="this.tipoUsuario == 'paciente'">
+
+            <div class="col-md-6" *ngIf="this.tipoUsuario == 'paciente'">
               <label for="fotoPerfil">Foto de perfil</label>
               <input type="file" (change)="uploadFile($event)" class="form-control" formControlName="fotoPerfil" placeholder="" value="" multiple required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.fotoPerfil.errors?.required && grupoDeControles.controls.fotoPerfil.touched">La foto de perfil es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.fotoPerfil.errors?.required && form.controls.fotoPerfil.touched">La foto de perfil es requerida</small>
             </div>
-            <div class="col-md-6 mb-3" *ngIf="this.tipoUsuario != 'paciente'">
+
+            <div class="col-md-6" *ngIf="this.tipoUsuario != 'paciente'">
               <label for="fotoPerfil">Foto de perfil</label>
               <input type="file" (change)="uploadFile($event)" class="form-control" formControlName="fotoPerfil" placeholder="" value="" required>
-              <small class="text-danger" *ngIf="grupoDeControles.controls.fotoPerfil.errors?.required && grupoDeControles.controls.fotoPerfil.touched">La foto de perfil es requerida</small>
+              <small class="text-danger" *ngIf="form.controls.fotoPerfil.errors?.required && form.controls.fotoPerfil.touched">La foto de perfil es requerida</small>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 mb-5">
-              <label for="captcha">Ingrese los siguientes numeros: {{numCaptcha}}</label>
-              <div class="d-flex">
-                <div class="flex-grow-1">
-                  <input type="number" id="captcha" class="form-control" (change)="validarCaptcha($event)">
+
+            <div class="row">
+              <div class="col-md-12 mb-5">
+                <label for="captcha">Ingrese los siguientes numeros: {{numCaptcha}}</label>
+                <div class="d-flex">
+                  <div class="flex-grow-1">
+                    <input type="number" id="captcha" class="form-control" (change)="validarCaptcha($event)">
+                  </div>
+                  <button type="button" class="btn btn-success" style="margin-left: 5px" (click)="generarCaptcha()">Cambiar</button>
                 </div>
-                <button type="button" class="btn btn-success" style="margin-left: 5px" (click)="generarCaptcha()">Cambiar</button>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-md btn-block" style="margin-top: 5px" [disabled]="form.invalid || !this.captchaValido">
+                  Agregar {{this.tipoUsuario}}
+                </button>
               </div>
             </div>
-            <div class="col-md-12 d-grid gap-2" style="margin-bottom: 10px">
-              <button type="submit" class="btn btn-primary btn-block" [disabled]="grupoDeControles.invalid || !this.captchaValido">
-                Agregar {{this.tipoUsuario}}
-              </button>
-            </div>
-          </div>
         </form>
-    </div>
+      </div>
   </div>
+  
 </div>
+
 <div class="fullscreen-bg"></div>
-</html>
+

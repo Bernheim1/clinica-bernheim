@@ -1,0 +1,39 @@
+<div class="container card" style="padding: 20px; border-radius: 15px; margin-top: 150px;" *ngIf="this.mostrarPacientes">
+    <h2>Seleccione paciente</h2>
+    <div class="row mx-0" style="justify-content: center;">
+      <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of pacientesValidos">
+        <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+          <h4>Paciente</h4>
+          <div class="card-body">
+            <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+            <img
+            [src]="item.fotoPerfil"
+            class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+            />
+            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarPaciente(item)">Selecionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px; margin-top: 150px;" *ngIf="this.mostrarHistoriaClinica">
+    <div class="d-flex"> 
+        <div class="flex-grow-1">
+            <h2>Historia clinica {{pacienteSeleccionado.nombre + ' ' + pacienteSeleccionado.apellido}}</h2>
+        </div>
+        <button type="button" class="btn btn-danger btn-lg text-white" style="margin: 5px" (click)="this.cerrarHistoriaClinica()">Cerrar</button>
+    </div>
+    <div class="row mx-0" style="justify-content: center;">
+        <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of pacienteSeleccionado.historiaClinica">
+            <div class="card d-block" style="border-radius: 15px; padding: 10px;">
+                <h4>Altura: {{item.altura}}</h4>
+                <h4>Peso: {{item.peso}}</h4>
+                <h4>Temperatura: {{item.temperatura}}</h4>
+                <h4>Presion: {{item.presion}}</h4>
+                <h4 *ngFor="let claveValor of item.claveValor">{{claveValor.clave}}: {{claveValor.valor}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fullscreen-bg"></div>

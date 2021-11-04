@@ -1,0 +1,68 @@
+
+<div class="row" style="justify-content: center; margin: 5px">
+    <textarea class="ingreso" style="border-radius: 5px;" id="comentario" cols="30" rows="3" placeholder="Debe dejar una reseña"></textarea>
+</div>
+
+<div class="row">
+    <div class="col-md-12 order-md-1">
+        <form [formGroup]="form" (ngSubmit)="this.confirmar()">
+            <div class="col-md-6 mb-3">
+                <label for="altura">Altura</label>
+                <input type="number" class="form-control" formControlName="altura" placeholder="" value="" required>
+                <small class="text-danger" *ngIf="form.controls.altura.errors?.required && form.controls.altura.touched">La altura es requerida</small>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="peso">Peso</label>
+                <input type="number" class="form-control" formControlName="peso" placeholder="" value="" required>
+                <small class="text-danger" *ngIf="form.controls.peso.errors?.required && form.controls.peso.touched">El peso es requerido</small>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="temperatura">Temperatura</label>
+                <input type="number" class="form-control" formControlName="temperatura" placeholder="" value="" required>
+                <small class="text-danger" *ngIf="form.controls.temperatura.errors?.required && form.controls.temperatura.touched">La temperatura es requerida</small>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="presion">Presion</label>
+                <input type="number" class="form-control" formControlName="presion" placeholder="" value="" required>
+                <small class="text-danger" *ngIf="form.controls.presion.errors?.required && form.controls.presion.touched">La presion es requerida</small>
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+
+                <div class="col-md-6 d-block">
+                    <label for="clave1">Clave</label>
+                    <input type="text" class="form-control" id="clave1">
+                </div>
+                <div class="col-md-6 d-block">
+                    <label for="valor1">Valor</label>
+                    <input type="number" class="form-control" id="valor1">
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+
+                <div class="col-md-6 d-block">
+                    <label for="clave2">Clave</label>
+                    <input type="text" class="form-control" id="clave2">
+                </div>
+                <div class="col-md-6 d-block">
+                    <label for="valor2">Valor</label>
+                    <input type="number" class="form-control" id="valor2">
+                </div>
+
+            </div>
+            <div class="col-md-6 mb-3 d-flex">
+
+                <div class="col-md-6 d-block">
+                    <label for="clave3">Clave</label>
+                    <input type="text" class="form-control" id="clave3">
+                </div>
+                <div class="col-md-6 d-block">
+                    <label for="valor3">Valor</label>
+                    <input type="number" class="form-control" id="valor3">
+                </div>
+
+            </div>
+                <button class="btn btn-primary btn-md btn-block" style="margin-top: 5px" [disabled]="form.invalid" (click)="this.confirmar()">Finalizar</button>
+        </form>
+    </div>
+</div>

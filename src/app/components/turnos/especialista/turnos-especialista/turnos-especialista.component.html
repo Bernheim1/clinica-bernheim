@@ -1,0 +1,80 @@
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>Jumbotron Template · Bootstrap v4.6</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/jumbotron/">
+
+
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+  </head>
+  <body>
+    
+
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <app-tabla-turnos-especialista (cancelar)="cancelarTurno($event)" (resena)="verResena($event)" (rechazar)="rechazarTurno($event)" (finalizar)="finalizarTurno($event)"></app-tabla-turnos-especialista>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 card" *ngIf="this.mostrarCancelar">
+        <h2>Cancelar turno</h2>
+        <app-cancelar-turno [cancelar]="cancelar"></app-cancelar-turno>
+      </div>
+      <div class="col-md-12 card" *ngIf="this.mostrarResena">
+        <h2>Ver reseña</h2>
+        <app-ver-resena [resena]="resena"></app-ver-resena>
+      </div>
+      <div class="col-md-12 card" *ngIf="this.mostrarRechazar">
+        <h2>Rechazar turno</h2>
+        <app-rechazar-turno-especialista [rechazar]="rechazar"></app-rechazar-turno-especialista>
+      </div>
+      <div class="col-md-12 card" *ngIf="this.mostrarFinalizar">
+        <h2>Finalizar turno</h2>
+        <app-finalizar-turno-especialista [finalizar]="finalizar"></app-finalizar-turno-especialista>
+      </div>
+    </div>
+
+    <hr>
+
+  </div> 
+
+</main>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      
+  </body>
+

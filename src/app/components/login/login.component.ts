@@ -17,6 +17,10 @@ export class LoginComponent implements OnInit {
   usuarios : any;
   usuariosBD : any;
 
+  arrPaciente : any[] = [];
+  arrEspecialista : any[] = [];
+  arrAdmin : any[] = [];
+
   constructor(private fb : FormBuilder, private auth : AuthService, private router : Router, private utilidades : UtilidadesService,private db : AngularFirestore) {
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges();
@@ -29,6 +33,20 @@ export class LoginComponent implements OnInit {
     });
 
     this.usuarios.subscribe((usuarios : any) => {
+      this.arrAdmin = [];
+      this.arrPaciente = [];
+      this.arrEspecialista = [];
+
+      for(let item of usuarios){
+        if(item.tipo == 'paciente' && this.arrPaciente.length < 2){
+          this.arrPaciente.push(item);
+        }else if(item.tipo == 'especialista' && this.arrEspecialista.length < 2){
+          this.arrEspecialista.push(item);
+        }else if(item.tipo == 'admin' && this.arrAdmin.length < 2){
+          this.arrAdmin.push(item);
+        }
+      }
+
       this.usuariosBD = usuarios;
     });
   }
@@ -38,11 +56,13 @@ export class LoginComponent implements OnInit {
     let mail : any =this.grupoDeControles.get('mail')?.value;
     let contrasena : any =this.grupoDeControles.get('contrasena')?.value;
 
+
     this.auth.login(mail,contrasena).then((data : any) => {
 
       let auxUsuario : any;
 
       for(let item of this.usuariosBD){
+        console.log(item);
         if(item.mail == mail && item.contrasena == contrasena){
           auxUsuario = item;
         }
@@ -50,16 +70,16 @@ export class LoginComponent implements OnInit {
 
       if(data.user._delegate.emailVerified){
 
-        if(auxUsuario.tipo == 'especialista' && auxUsuario.cuentaVerificada){
+        if(auxUsuario?.tipo == 'especialista' && auxUsuario?.cuentaVerificada){
           this.auth.currentUser = auxUsuario;
           this.auth.isLoggedIn = true;
           this.router.navigate(['']);
-        }else if(auxUsuario.tipo == 'especialista' && !auxUsuario.cuentaVerificada){
+        }else if(auxUsuario?.tipo == 'especialista' && !auxUsuario?.cuentaVerificada){
           this.utilidades.mostrarToastError('Usuario no verificado', 'Un administrador debe verificar su cuenta');
           this.auth.signOut();
         }
 
-        if(auxUsuario.tipo == 'paciente' || auxUsuario.tipo == 'admin') {
+        if(auxUsuario?.tipo == 'paciente' || auxUsuario?.tipo == 'admin') {
           this.auth.currentUser = auxUsuario;
           this.auth.isLoggedIn = true;
           this.router.navigate(['']);
@@ -79,26 +99,17 @@ export class LoginComponent implements OnInit {
 
         this.utilidades.mostrarToastError('Credenciales Invalidas', 'Usuario o clave invalidos, vuelva a ingresar los datos');
 
+      }else{
+        console.log(error);
       }
     })
   }
 
-  loginValido(opcion : string) {
+  loginValido(item : any) {
 
-      switch(opcion) {
-        case 'paciente': 
-          this.grupoDeControles.get('mail')?.setValue('agustin_ber@hotmail.com');
-          this.grupoDeControles.get('contrasena')?.setValue('asd123');
-          break;
-        case 'especialista':
-          this.grupoDeControles.get('mail')?.setValue('agustinbernheim8@gmail.com');
-          this.grupoDeControles.get('contrasena')?.setValue('asd123');
-          break;
-        case 'admin':
-          this.grupoDeControles.get('mail')?.setValue('agustinbernheim@outlook.com');
-          this.grupoDeControles.get('contrasena')?.setValue('asd123');
-          break;
-      }
+    this.grupoDeControles.get('mail')?.setValue(item.mail);
+    this.grupoDeControles.get('contrasena')?.setValue(item.contrasena);
+
+    this.ingresar();
   }
-  
 }

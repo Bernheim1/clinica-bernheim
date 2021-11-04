@@ -1,9 +1,9 @@
 <section class="vh-100">
     <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="row justify-content-center align-items-center h-100">
         <div class="col-md-12 col-xl-4">
   
-          <div class="card" style="border-radius: 15px;">
+          <div class="card d-flex" style="border-radius: 15px;">
             <div class="card-body text-center">
               <div class="mt-3 mb-4">
                 <img
@@ -70,8 +70,21 @@
 
           <button type="button" class="btn btn-block btn-primary" (click)="enviarHorarios()">Seleccionar horarios</button>
         </div>
+        <div class="container card " style="padding: 20px; border-radius: 15px; margin-top: 20px; margin-bottom: 20px;" *ngIf="this.auth.currentUser?.tipo == 'paciente' && this.auth.currentUser.historiaClinica != null">
+          <h2>Historia clinica</h2>
+          <div class="row mx-0 d-flex" style="justify-content: center;">
+            <div style="justify-content: center; width: 18rem; margin-top: 20px; margin-bottom: 20px;" *ngFor="let item of auth.currentUser.historiaClinica">
+              <div class="card d-block" style="border-radius: 15px; padding: 10px;">
+                <h4>Altura: {{item.altura}}</h4>
+                <h4>Peso: {{item.peso}}</h4>
+                <h4>Temperatura: {{item.temperatura}}</h4>
+                <h4>Presion: {{item.presion}}</h4>
+                <h4 *ngFor="let claveValor of item.claveValor">{{claveValor.clave}}: {{claveValor.valor}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    
   </section>
   <div class="fullscreen-bg"></div>

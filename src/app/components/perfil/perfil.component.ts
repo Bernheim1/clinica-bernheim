@@ -34,6 +34,7 @@ export class PerfilComponent implements OnInit {
       for(let item of usuarios){
         if(item.dni == this.auth.currentUser.dni){
           this.usuario = item;
+          break;
         }
       }
     });

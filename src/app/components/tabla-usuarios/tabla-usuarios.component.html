@@ -1,52 +1,61 @@
-<div class="row">
-    <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('paciente')">Pacientes</button>
+<div class="container card" style="padding: 20px; border-radius: 15px;">
+  <div class="row">
+      <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('paciente')">Pacientes</button>
+      </div>
+      <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('especialista')">Especialistas</button>
+      </div>
+      <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('admin')">Administradores</button>
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-success btn-lg btn-block" style="margin-top: 20px;" (click)="this.descargarExcel()">Descargar excel</button>
     </div>
-    <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('especialista')">Especialistas</button>
-    </div>
-    <div class="col-md-4">
-        <button class="btn btn-primary btn-lg btn-block" (click)="this.cambiarVista('admin')">Administradores</button>
+  </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px; margin-top: 30px " *ngIf="mostrarUsuarios">
+    <div class="row mx-0" style="justify-content: center;">
+      <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of arrAux">
+        <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+          <div class="card-body">
+            <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+            <div>
+              <img
+              [src]="item.fotoPerfil"
+              class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; margin: 0" alt="Card image cap"
+              />
+              <img *ngIf="item.tipo == 'paciente'"
+              [src]="item.fotoPerfil2"
+              class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; margin: 0" alt="Card image cap"
+              />
+            </div>
+            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" *ngIf="item.tipo == 'paciente'" (click)="this.seleccionarPaciente(item)">Historia clinica</button>
+            <button type="button" class="btn btn-success btn-lg text-white" style="margin: 5px" *ngIf="item.tipo == 'especialista' && !item.cuentaVerificada" (click)="this.verificarEspecialista(item)">Habilitar</button>
+            <button type="button" class="btn btn-warning btn-lg text-white" style="margin: 5px" *ngIf="item.tipo == 'especialista' && item.cuentaVerificada" (click)="this.verificarEspecialista(item)">Deshabilitar</button>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
 
-<div class="table-wrapper">
-    <table class="fl-table">
-        <thead>
-            <th>NOMBRE</th>
-            <th>APELLIDO</th>
-            <th>EDAD</th>
-            <th>DNI</th>
-            <th *ngIf="this.tipo == 'paciente'">OBRA SOCIAL</th>
-            <th *ngIf="this.tipo == 'especialista'">ESPECIALIDAD</th>
-            <th>MAIL</th>
-            <th>FOTO</th>
-            <th *ngIf="this.tipo == 'paciente'">FOTO 2</th>
-            <th *ngIf="this.tipo == 'especialista'">CUENTA VERIFICADA</th>
-            <th *ngIf="this.tipo == 'especialista'">VERIFICAR</th>
-        </thead>
-        <tbody>
-
-        <tr *ngFor="let item of arrAux">   
-            <td>{{item.nombre}}</td>
-            <td>{{item.apellido}}</td>
-            <td>{{item.edad}}</td>
-            <td>{{item.dni}}</td>
-            <td *ngIf="this.tipo == 'paciente'">{{item.obraSocial}}</td>
-            <td *ngIf="this.tipo == 'especialista'">{{item.especialidad}}</td>
-            <td>{{item.mail}}</td>
-            <td><img [src]="item.fotoPerfil" height="30px" width="30px"></td>
-            <td *ngIf="this.tipo == 'paciente'"><img [src]="item.fotoPerfil2" height="30px" width="30px"></td>
-            <td *ngIf="this.tipo == 'especialista' && !item.cuentaVerificada">❌</td>
-            <td *ngIf="this.tipo == 'especialista' && item.cuentaVerificada">✔️</td>
-            <td *ngIf="this.tipo == 'especialista' && !item.cuentaVerificada">
-                <button class="btn btn-primary btn-lg btn-block" (click)="this.verificarEspecialista(item)">Verificar</button>
-            </td>
-            <td *ngIf="this.tipo == 'especialista' && item.cuentaVerificada">
-                <button class="btn btn-primary btn-lg btn-block" (click)="this.verificarEspecialista(item)">Desverificar</button>
-            </td>
-        </tr>   
-
-        </tbody>
-        </table>
-    </div>
+<div class="container card" style="padding: 20px; border-radius: 15px; margin-top: 30px;" *ngIf="this.mostrarHistoriaClinica">
+  <div class="d-flex"> 
+      <div class="flex-grow-1">
+          <h2>Historia clinica {{pacienteSeleccionado.nombre + ' ' + pacienteSeleccionado.apellido}}</h2>
+      </div>
+      <button type="button" class="btn btn-danger btn-lg text-white" style="margin: 5px" (click)="this.cerrarHistoriaClinica()">Cerrar</button>
+  </div>
+  <div class="row mx-0" style="justify-content: center;">
+      <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of pacienteSeleccionado.historiaClinica">
+          <div class="card d-block" style="border-radius: 15px; padding: 10px;">
+              <h4>Altura: {{item.altura}}</h4>
+              <h4>Peso: {{item.peso}}</h4>
+              <h4>Temperatura: {{item.temperatura}}</h4>
+              <h4>Presion: {{item.presion}}</h4>
+              <h4 *ngFor="let claveValor of item.claveValor">{{claveValor.clave}}: {{claveValor.valor}}</h4>
+          </div>
+      </div>
+  </div>
+</div>

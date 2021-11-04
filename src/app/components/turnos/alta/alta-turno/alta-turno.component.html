@@ -3,68 +3,125 @@
 <br>
 <br>
 <br>
-<div class="container card">
-  <form [formGroup]="form" (ngSubmit)="agregarTurno()">
-    <div class="row">
-      <div class="col-md-12 mb-5">
-        <h2>Soliciar turno</h2>
-      </div>
-    </div>
-    <div class="row formulario">
-      <div class="col-md-6 mb-3">
-        <label for="especialidad" class="form-label">Especialidad</label>
-        <select class="form-select" id="especialidad" formControlName="especialidad" (change)="seleccionEspecialidad($event)">
-        <option value="">Seleccione una especialidad</option>
-          <option *ngFor="let item of especialidadesBD" value="{{item.especialidad}}">{{item.especialidad}}</option>
-        </select>
-        <small class="text-danger" *ngIf="form.controls.especialidad.errors?.required && form.controls.especialidad.touched">La especialidad es requerida</small>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="especialidad" class="form-label">Especialista</label>
-        <select class="form-select" id="especialista" formControlName="especialista" (change)="seleccionEspecialista($event)">
-        <option value="">Seleccione un especialista</option>
-          <option *ngFor="let item of arrEspecialistasValidos" value="{{item.nombre + ' ' + item.apellido}}">{{item.nombre + ' ' + item.apellido}}</option>
-        </select>
-        <small class="text-danger" *ngIf="form.controls.especialista.errors?.required && form.controls.especialista.touched">El especialista es requerido</small>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="fechaTurno" class="form-label">Dia y horario del turno</label>
-        <button type="button" class="btn btn-primary btn-sm" style="margin-left: 5px" (click)="seleccionFechaTurno()" [disabled]="this.especialidadSeleccionada == null || this.especialistaSeleccionado == null || seleccionarFecha || seleccionarDia || seleccionarHora">Seleccionar</button>
-        <small>{{this.fechaInput}}</small>
-        <small class="text-danger" *ngIf="form.controls.fechaTurno.errors?.required && form.controls.fechaTurno.touched">La fecha del turno es requerida</small>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 d-grid gap-2">
-        <button type="submit" class="btn btn-primary btn-block" style="margin-bottom: 10px" [disabled]="form.invalid">
-          Aceptar
-        </button>
-      </div>
-    </div>
-  </form>
+<div class="container card" style="padding: 20px; border-radius: 15px; margin-bottom: 20px;"> 
+  <h2>Seleccionados</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <h4 *ngIf="this.auth.currentUser?.tipo == 'admin' && pacienteSeleccionado == null">Paciente: </h4>
+    <h4 *ngIf="this.auth.currentUser?.tipo == 'admin' && pacienteSeleccionado != null">Paciente: {{pacienteSeleccionado?.nombre + ' ' + pacienteSeleccionado?.apellido}}</h4>
+      <h4>Especialidad: {{especialidadSeleccionada}}</h4>
+      <h4 *ngIf="especialistaSeleccionado == null">Especialista: </h4>
+      <h4 *ngIf="especialistaSeleccionado != null">Especialista: {{especialistaSeleccionado?.nombre + ' ' + especialistaSeleccionado?.apellido}}</h4>
+      <h4>Fecha: {{fechaSeleccionada}}</h4>
+      <h4>Hora: {{horaSeleccionada}}</h4>
+
+  </div>
 </div>
 
-<div class="row" style="margin-top: 20px">
-  <div class="col-md-4" *ngIf="seleccionarFecha || seleccionarDia || seleccionarHora"></div>
-
-  <div class="col-md-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarDia">
-  
-    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of this.especialistaSeleccionado.dias" (click)="seleccionDia(item)">{{item}}</button>
-  
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarPacientes">
+  <h2>Seleccione paciente</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of arrPacientes">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>Paciente</h4>
+        <div class="card-body">
+          <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+          <img
+          [src]="item.fotoPerfil"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarPaciente(item)">Selecionar</button>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <div class="col-md-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarFecha && !seleccionarDia">
-  
-    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of fechasValidas" (click)="seleccionFecha(item)">{{item}}</button>
-  
-  </div>
-  
-  <div class="col-md-4  card" style="padding: 5px; border-radius: 10px;" *ngIf="seleccionarHora && !seleccionarDia">
-  
-    <button type="button" class="btn btn-block btn-primary" *ngFor="let item of horasValidas" (click)="seleccionHora(item)">{{item}}</button>
-  
-  </div>
-  
-  <div class="col-md-4" *ngIf="seleccionarFecha || seleccionarDia || seleccionarHora"></div>
 </div>
 
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarEspecialidades">
+  <h2>Seleccione especialidad</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of especialidadesBD">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>Especialidad</h4>
+        <div class="card-body">
+          <h4 class="card-title">{{item.especialidad}}</h4>
+          <img *ngIf="item.foto != null"
+          [src]="item.foto"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+          <img *ngIf="item.foto == null"
+          src="../../../../../assets/especialidadDefault.png"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarEspecialidad(item)">Selecionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarEspecialistas">
+  <h2>Seleccione especialista</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of arrEspecialistasValidos">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>Especialista</h4>
+        <div class="card-body">
+          <h4 class="card-title">{{item.nombre + ' ' + item.apellido}}</h4>
+          <img 
+          [src]="item.fotoPerfil"
+          class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
+          />
+          <h4 style="margin-top: 10px">Especialidades</h4>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let especialidad of item.especialidades">{{especialidad}}</li>
+          </ul>
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarEspecialista(item)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarDias">
+  <h2>Seleccione dia</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of especialistaSeleccionado.dias">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>{{item}}</h4>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionDia(item)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarFechas">
+  <h2>Seleccione fecha</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of fechasValidas">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>{{item}}</h4>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionFecha(item)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container card" style="padding: 20px; border-radius: 15px" *ngIf="this.mostrarHoras">
+  <h2>Seleccione hora</h2>
+  <div class="row mx-0" style="justify-content: center;">
+    <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of horasValidas">
+      <div class="card" style="border-radius: 15px; padding: 10px; width: 100%; height: 100%;">
+        <h4>{{item}}</h4>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionHora(item)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fullscreen-bg"></div> -->

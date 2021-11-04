@@ -49,22 +49,46 @@
   </div>
 
   <div class="container">
-    <!-- Example row of columns -->
+
     <div class="row" style="justify-content: center" *ngIf="!this.seleccionado">
-      <div class="col-md-9 card">
-        <h2>Paciente</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('paciente')">Registrar &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px">
-        <h2>Espacialista</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('especialista')">Registrar &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.admin">
-        <h2>Administrador</h2>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="this.seleccionTipo('admin')">Registrar &raquo;</a></p>
+      <div class="col-md-4" style="justify-content: center">
+          <div class="card" style="width: 18rem; border-radius: 15px; padding: 10px">
+            <img class="card-img-top" src="../../../assets/iconos/paciente.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Paciente</h4>
+              <a class="btn btn-primary btn-lg text-white" (click)="this.seleccionTipo('paciente')">Registrar</a>
+            </div>
+          </div>
       </div>
 
+      <div class="col-md-4" style="justify-content: center">
+        <div class="card" style="width: 18rem; border-radius: 15px; padding: 10px">
+            <img class="card-img-top" src="../../../assets/iconos/especialista.png" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">Especialista</h4>
+              <a class="btn btn-primary btn-lg text-white" (click)="this.seleccionTipo('especialista')">Registrar</a>
+            </div>
+          </div>
+      </div>
+
+      <div class="row justify-content-center" *ngIf="this.admin">
+        <div class="col-md-4" style="justify-content: center; margin-top: 20px; margin-bottom: 20px;" >
+          <div class="card" style="width: 18rem; border-radius: 15px; padding: 10px">
+              <img class="card-img-top" src="../../../assets/iconos/admin.png" alt="Card image cap">
+              <div class="card-body">
+                <h4 class="card-title">Administrador</h4>
+                <a class="btn btn-primary btn-lg text-white" (click)="this.seleccionTipo('admin')">Registrar</a>
+              </div>
+            </div>
+        </div>
+      </div>
+  
     </div>
+
+
+
+
+    
 
     <div class="row" *ngIf="this.seleccionado">
         <app-registro [tipo]='this.tipo'></app-registro>
