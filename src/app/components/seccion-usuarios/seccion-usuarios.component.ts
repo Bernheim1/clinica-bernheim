@@ -28,7 +28,7 @@ export class SeccionUsuariosComponent implements OnInit {
       const pdfh = (imageProps.height* pdfw)/ imageProps.width;
 
       pdf.addImage(imgData, 'PNG', 0, 0, pdfw, pdfh);
-      pdf.save('informes.pdf');
+      pdf.save('clinicaBernheimInformes.pdf');
     })
   }
 }
