@@ -13,8 +13,8 @@ const routes: Routes = [
   {path: 'registro', component: SeleccionRegistroComponent},
   {path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard]},
   {path: 'admin', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthAdminGuard]},
-  {path: 'turnos', loadChildren: () => import('./modules/turnos/turnos.module').then(m => m.TurnosModule)},
-  {path: 'especialista', loadChildren: () => import('./modules/especialista/especialista.module').then(m => m.EspecialistaModule)},
+  {path: 'turnos', loadChildren: () => import('./modules/turnos/turnos.module').then(m => m.TurnosModule), canActivate: [AuthGuard]},
+  {path: 'especialista', loadChildren: () => import('./modules/especialista/especialista.module').then(m => m.EspecialistaModule), canActivate: [AuthGuard]},
 ];
 
 @NgModule({
