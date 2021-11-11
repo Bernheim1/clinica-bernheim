@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PdfMakeWrapper, Img, Table } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { DatePipe } from '@angular/common';
+import { EstadoHistoriaClinicaPipe } from 'src/app/pipes/estado-historia-clinica.pipe';
 
 @Component({
   selector: 'app-seccion-pacientes',
@@ -26,7 +27,7 @@ export class SeccionPacientesComponent implements OnInit {
   pacienteSeleccionado : any;
   turnosPaciente : any[] = [];
 
-  constructor(private db : AngularFirestore, public auth : AuthService, private datePipe : DatePipe) { 
+  constructor(private db : AngularFirestore, public auth : AuthService, private datePipe : DatePipe, public estadoHistoriaClinica : EstadoHistoriaClinicaPipe) { 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
 

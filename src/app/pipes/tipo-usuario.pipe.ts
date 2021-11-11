@@ -5,6 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TipoUsuarioPipe implements PipeTransform {
 
+  /* 
+  Utilizado en: 
+    login.component.html = linea 33
+  */
+
   transform(value : any){
     
     if(value.tipo == 'paciente'){

@@ -48,6 +48,7 @@ import { BotonHistoriaClinicaDirective } from './directives/boton-historia-clini
 import { ChartsModule } from 'ng2-charts';
 import { GraficosAdminComponent } from './components/graficos-admin/graficos-admin.component';
 import { LogsUsuariosComponent } from './components/logs-usuarios/logs-usuarios.component';
+import { EstadoHistoriaClinicaPipe } from './pipes/estado-historia-clinica.pipe';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { LogsUsuariosComponent } from './components/logs-usuarios/logs-usuarios.
     BotonHistoriaClinicaDirective,
     GraficosAdminComponent,
     LogsUsuariosComponent,
+    EstadoHistoriaClinicaPipe,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +102,7 @@ import { LogsUsuariosComponent } from './components/logs-usuarios/logs-usuarios.
     }),
     ChartsModule,
   ],
-  providers: [DatePipe, EstadoTurnoPipe, TipoUsuarioPipe],
+  providers: [DatePipe, EstadoTurnoPipe, TipoUsuarioPipe, EstadoHistoriaClinicaPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

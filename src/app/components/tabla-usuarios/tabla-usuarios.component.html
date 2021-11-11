@@ -51,9 +51,9 @@
       <div style="justify-content: center; width: 18rem; margin-top: 20px" *ngFor="let item of pacienteSeleccionado.historiaClinica">
           <div class="card d-block" style="border-radius: 15px; padding: 10px;">
               <h4>Altura: {{item.altura}}</h4>
-              <h4>Peso: {{item.peso}}</h4>
-              <h4>Temperatura: {{item.temperatura}}</h4>
-              <h4>Presion: {{item.presion}}</h4>
+              <h4>Peso: {{item.peso + ' ' +estadoHistoriaClinica.transform('peso',item.peso)}}</h4>
+              <h4>Temperatura: {{item.temperatura + ' ' + estadoHistoriaClinica.transform('temperatura',item.temperatura)}}</h4>
+              <h4>Presion: {{item.presion + ' ' + estadoHistoriaClinica.transform('presion',item.presion)}}</h4>
               <h4 *ngFor="let claveValor of item.claveValor">{{claveValor.clave}}: {{claveValor.valor}}</h4>
           </div>
       </div>

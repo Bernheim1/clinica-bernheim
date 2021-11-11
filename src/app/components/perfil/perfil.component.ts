@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { EstadoHistoriaClinicaPipe } from 'src/app/pipes/estado-historia-clinica.pipe';
 
 @Component({
   selector: 'app-perfil',
@@ -30,7 +31,7 @@ export class PerfilComponent implements OnInit {
   turnosValidos : any[] = [];
   arrEspecialistasValidos : any[] = [];
 
-  constructor(public auth : AuthService, private utilidades : UtilidadesService, private db : AngularFirestore, private firebase : FirebaseService, private datePipe : DatePipe) { 
+  constructor(public auth : AuthService, private utilidades : UtilidadesService, private db : AngularFirestore, private firebase : FirebaseService, private datePipe : DatePipe, public estadoHistoriaClinica : EstadoHistoriaClinicaPipe) { 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
   }

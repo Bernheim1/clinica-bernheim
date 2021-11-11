@@ -4,6 +4,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
+import { EstadoHistoriaClinicaPipe } from 'src/app/pipes/estado-historia-clinica.pipe';
 
 @Component({
   selector: 'app-tabla-usuarios',
@@ -26,7 +27,7 @@ export class TablaUsuariosComponent implements OnInit {
   mostrarHistoriaClinica : boolean = false;
   pacienteSeleccionado : any;
 
-  constructor(private db : AngularFirestore, private firebase : FirebaseService, private utilidades : UtilidadesService) { 
+  constructor(private db : AngularFirestore, private firebase : FirebaseService, private utilidades : UtilidadesService, public estadoHistoriaClinica : EstadoHistoriaClinicaPipe) { 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
   }
