@@ -76,4 +76,8 @@ export class FirebaseService {
     return this.firestore.collection('turnos').doc(id).update(object);
   }
 
+  cargarLog(object : any){
+    return this.firestore.collection('logs').add(object);
+  }
+
 }

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { EstadoTurnoPipe } from 'src/app/pipes/estado-turno.pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
@@ -22,7 +23,7 @@ export class TablaTurnosAdministradorComponent implements OnInit {
   arrEspecialistasValidos : any[] = [];
   arrEspecialidadesValidas : any[] = [];
 
-  constructor(private firebase : FirebaseService, private db : AngularFirestore, private auth : AuthService, private utilidades : UtilidadesService) { 
+  constructor(private firebase : FirebaseService, private db : AngularFirestore, private auth : AuthService, private utilidades : UtilidadesService, public estadoTurnoPipe : EstadoTurnoPipe) { 
     this.coleccion = this.db.collection<any>('turnos');
     this.turnos = this.coleccion.valueChanges({idField: 'id'});
   }

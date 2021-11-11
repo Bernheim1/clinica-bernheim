@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { EstadoTurnoPipe } from 'src/app/pipes/estado-turno.pipe';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
@@ -25,7 +26,7 @@ export class TablaTurnosEspecialistaComponent implements OnInit {
   arrPacientesValidos : any[] = [];
   arrEspecialidadesValidas : any[] = [];
 
-  constructor(private firebase : FirebaseService, private db : AngularFirestore, private auth : AuthService, private utilidades : UtilidadesService) { 
+  constructor(private firebase : FirebaseService, private db : AngularFirestore, private auth : AuthService, private utilidades : UtilidadesService, public estadoTurnoPipe : EstadoTurnoPipe) { 
     this.coleccion = this.db.collection<any>('turnos');
     this.turnos = this.coleccion.valueChanges({idField: 'id'});
   }
@@ -131,6 +132,118 @@ export class TablaTurnosEspecialistaComponent implements OnInit {
 
   finalizarTurno(item : any){
     this.finalizar.emit(item);
+  }
+
+  validarBusqueda(){
+
+    let busqueda = (<HTMLInputElement> document.getElementById('busqueda')).value.toString();
+    let arrAux : any[] = [];
+    let index : any;
+
+    console.log(busqueda);
+    
+    if(busqueda != ''){
+
+      busqueda = busqueda.toLowerCase();
+      
+      for(let item of this.turnosValidos){
+
+        if(item.dniPaciente.toString().includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.dniEspecialista.toString().includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.dia.includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.hora.includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.especialidad.toLowerCase().includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.especialista.toLowerCase().includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+
+        if(item.paciente.toLowerCase().includes(busqueda)){
+          index = arrAux.indexOf(item);
+          if(index == -1){
+            arrAux.push(item)
+          }
+        }
+        
+        if(item.historiaClinica != null){
+          if(item.historiaClinica.altura.toString().includes(busqueda)){
+            index = arrAux.indexOf(item);
+            if(index == -1){
+              arrAux.push(item)
+            }
+          }
+  
+          if(item.historiaClinica.peso.toString().includes(busqueda)){
+            index = arrAux.indexOf(item);
+            if(index == -1){
+              arrAux.push(item)
+            }
+          }
+  
+          if(item.historiaClinica.temperatura.toString().includes(busqueda)){
+            index = arrAux.indexOf(item);
+            if(index == -1){
+              arrAux.push(item)
+            }
+          }
+  
+          if(item.historiaClinica.presion.toString().includes(busqueda)){
+            index = arrAux.indexOf(item);
+            if(index == -1){
+              arrAux.push(item)
+            }
+          }
+  
+          if(item.historiaClinica.claveValor != null){
+            for(let claveValor of item.historiaClinica.claveValor){
+              if(claveValor.clave.toLowerCase().includes(busqueda) || claveValor.valor.toString().includes(busqueda)){
+                index = arrAux.indexOf(item);
+                if(index == -1){
+                  arrAux.push(item)
+                }
+              }
+            }
+          }
+        }
+
+
+      }
+
+      this.turnosAMostrar = arrAux;
+    }
+
   }
 
 }

@@ -6,6 +6,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common'
 
+
+
 //FIREBASE
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -38,6 +40,14 @@ import { TablaTurnosAdministradorComponent } from './components/turnos/administr
 import { CancelarTurnoAdministradorComponent } from './components/turnos/administrador/cancelar-turno-administrador/cancelar-turno-administrador.component';
 import { TurnosAdministradorComponent } from './components/turnos/administrador/turnos-administrador/turnos-administrador.component';
 import { SeccionPacientesComponent } from './components/seccion-pacientes/seccion-pacientes.component';
+import { EstadoTurnoPipe } from './pipes/estado-turno.pipe';
+import { TipoUsuarioPipe } from './pipes/tipo-usuario.pipe';
+import { EstadoTurnoDirective } from './directives/estado-turno.directive';
+import { BotonBienvenidaDirective } from './directives/boton-bienvenida.directive';
+import { BotonHistoriaClinicaDirective } from './directives/boton-historia-clinica.directive';
+import { ChartsModule } from 'ng2-charts';
+import { GraficosAdminComponent } from './components/graficos-admin/graficos-admin.component';
+import { LogsUsuariosComponent } from './components/logs-usuarios/logs-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +75,14 @@ import { SeccionPacientesComponent } from './components/seccion-pacientes/seccio
     TablaTurnosAdministradorComponent,
     CancelarTurnoAdministradorComponent,
     TurnosAdministradorComponent,
-    SeccionPacientesComponent
+    SeccionPacientesComponent,
+    EstadoTurnoPipe,
+    TipoUsuarioPipe,
+    EstadoTurnoDirective,
+    BotonBienvenidaDirective,
+    BotonHistoriaClinicaDirective,
+    GraficosAdminComponent,
+    LogsUsuariosComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,8 +98,9 @@ import { SeccionPacientesComponent } from './components/seccion-pacientes/seccio
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    ChartsModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, EstadoTurnoPipe, TipoUsuarioPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

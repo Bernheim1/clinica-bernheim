@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TipoUsuarioPipe } from 'src/app/pipes/tipo-usuario.pipe';
 import { AuthService } from 'src/app/services/auth.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +20,10 @@ export class LoginComponent implements OnInit {
   usuarios : any;
   usuariosBD : any;
 
-  arrPaciente : any[] = [];
-  arrEspecialista : any[] = [];
-  arrAdmin : any[] = [];
+  arrUsuarios : any[] = [];
 
-  constructor(private fb : FormBuilder, private auth : AuthService, private router : Router, private utilidades : UtilidadesService,private db : AngularFirestore) {
+
+  constructor(private fb : FormBuilder, private auth : AuthService, private router : Router, private utilidades : UtilidadesService, private db : AngularFirestore, public tipoUsuarioPipe : TipoUsuarioPipe, public firebase : FirebaseService, private datePipe : DatePipe) {
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges();
   }
@@ -33,17 +35,23 @@ export class LoginComponent implements OnInit {
     });
 
     this.usuarios.subscribe((usuarios : any) => {
-      this.arrAdmin = [];
-      this.arrPaciente = [];
-      this.arrEspecialista = [];
+
+      let contPaciente = 0;
+      let contEspecialista = 0;
+      let contAdmin = 0;
+
+      this.arrUsuarios = [];
 
       for(let item of usuarios){
-        if(item.tipo == 'paciente' && this.arrPaciente.length < 2){
-          this.arrPaciente.push(item);
-        }else if(item.tipo == 'especialista' && this.arrEspecialista.length < 2){
-          this.arrEspecialista.push(item);
-        }else if(item.tipo == 'admin' && this.arrAdmin.length < 2){
-          this.arrAdmin.push(item);
+        if(item.tipo == 'paciente' && contPaciente < 2){
+          this.arrUsuarios.push(item);
+          contPaciente++;
+        }else if(item.tipo == 'especialista' && contEspecialista < 2){
+          this.arrUsuarios.push(item);
+          contEspecialista++;
+        }else if(item.tipo == 'admin' && contAdmin < 2){
+          this.arrUsuarios.push(item);
+          contAdmin++;
         }
       }
 
@@ -73,7 +81,9 @@ export class LoginComponent implements OnInit {
         if(auxUsuario?.tipo == 'especialista' && auxUsuario?.cuentaVerificada){
           this.auth.currentUser = auxUsuario;
           this.auth.isLoggedIn = true;
+          this.enviarLog(this.datePipe.transform(Date.now(),'M/d/yy h:mm a'), `${auxUsuario.nombre + ' ' + auxUsuario.apellido}`);
           this.router.navigate(['']);
+          
         }else if(auxUsuario?.tipo == 'especialista' && !auxUsuario?.cuentaVerificada){
           this.utilidades.mostrarToastError('Usuario no verificado', 'Un administrador debe verificar su cuenta');
           this.auth.signOut();
@@ -82,6 +92,7 @@ export class LoginComponent implements OnInit {
         if(auxUsuario?.tipo == 'paciente' || auxUsuario?.tipo == 'admin') {
           this.auth.currentUser = auxUsuario;
           this.auth.isLoggedIn = true;
+          this.enviarLog(this.datePipe.transform(Date.now(),'M/d/yy h:mm a'), `${auxUsuario.nombre + ' ' + auxUsuario.apellido}`);
           this.router.navigate(['']);
         }
 
@@ -111,5 +122,16 @@ export class LoginComponent implements OnInit {
     this.grupoDeControles.get('contrasena')?.setValue(item.contrasena);
 
     this.ingresar();
+  }
+
+  enviarLog(fecha : any, usuario : any){
+    return this.firebase.cargarLog({
+      fecha: fecha,
+      usuario: usuario
+    }).then((respuesta) => {
+      console.log("Log de ingreso guardado: ", respuesta.id);
+    }).catch((error) => {
+      console.error("Error guardando el log: ", error);
+  });
   }
 }

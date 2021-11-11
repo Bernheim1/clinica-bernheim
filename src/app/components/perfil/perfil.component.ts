@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Img, PdfMakeWrapper, Table } from 'pdfmake-wrapper';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilidadesService } from 'src/app/services/utilidades.service';
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 @Component({
   selector: 'app-perfil',
@@ -23,7 +25,12 @@ export class PerfilComponent implements OnInit {
   usuarios : any;
   usuario : any;
 
-  constructor(public auth : AuthService, private utilidades : UtilidadesService, private db : AngularFirestore, private firebase : FirebaseService) { 
+  tabla : any;
+  turnosAMostrar : any[] = [];
+  turnosValidos : any[] = [];
+  arrEspecialistasValidos : any[] = [];
+
+  constructor(public auth : AuthService, private utilidades : UtilidadesService, private db : AngularFirestore, private firebase : FirebaseService, private datePipe : DatePipe) { 
     this.coleccion = this.db.collection<any>('usuarios');
     this.usuarios = this.coleccion.valueChanges({idField: 'id'});
   }
@@ -38,6 +45,11 @@ export class PerfilComponent implements OnInit {
         }
       }
     });
+
+    if(this.auth.currentUser.historiaClinica != null){
+      this.validarEspecialistas();
+      this.validarTurnos();
+    }
   }
 
   seleccionHorario(opcion : any) {
@@ -116,6 +128,103 @@ export class PerfilComponent implements OnInit {
     }else{
       this.utilidades.mostrarToastError('Horarios sin seleccionar', 'Debe seleccionar al menos un horario');
     }
+  }
+
+
+  async descargarPDF(){
+
+    PdfMakeWrapper.setFonts(pdfFonts);
+    const pdf = new PdfMakeWrapper();
+    pdf.add((await new Img('./../../../../assets/especialidadDefault.png').width(100).alignment('center').build()))
+    let fecha = new Date();
+    let footer : any;
+    footer = this.datePipe.transform(fecha, 'dd/MM/yyyy');
+    pdf.pageSize('A4');
+    pdf.pageMargins(40);
+    pdf.add({text: 'Clinica Bernheim', alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]});
+    pdf.add({text: footer, alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]});
+    pdf.add({text: 'Historia clinica: ' + this.auth.currentUser.nombre + ' ' + this.auth.currentUser.apellido, alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]});
+    pdf.add(this.createTable());
+    pdf.create().download();
+
+  }
+
+  createTable(){
+    this.formatDataToTable();
+    [{}]
+    return new Table(this.tabla).alignment('center').end;
+  }
+
+  formatDataToTable(){
+
+    console.log(this.turnosAMostrar)
+    this.tabla = this.turnosAMostrar.map((turno:any)=>{
+      let row = [];
+      let rowAux = [];
+      row.push(
+        'Especialista: ' + turno.especialista + '\n'
+      );
+      row.push(
+        'Altura: ' + turno.altura + '\n' + 
+        'Peso: ' +  turno.peso + '\n' +
+        'Temperatura: ' +  turno.temperatura + '\n' + 
+        'Presion: ' + turno.presion + '\n'
+        );
+        for(let item of turno.claveValor){
+          if(item.clave != null && item.valor != null){
+            rowAux.push(item.clave + ': ' + item.valor + '\n');
+          }
+        }
+        if(rowAux.length != 0){
+          row.push(rowAux);
+        }
+        return row;
+      });
+  }
+
+  validarEspecialistas(){
+    
+    this.arrEspecialistasValidos = [];
+    let index : any;
+
+    for(let item of this.auth.currentUser.historiaClinica){
+      index = this.arrEspecialistasValidos.indexOf(item.especialista);
+      if(index == -1){
+        this.arrEspecialistasValidos.push(item.especialista);
+      }
+    }
+  }
+
+  validarTurnos(){
+
+    this.turnosValidos = [];
+    let index : any;
+
+    for(let item of this.auth.currentUser.historiaClinica){
+      index = this.turnosValidos.indexOf(item);
+      if(index == -1){
+        this.turnosValidos.push(item);
+      }
+    }
+
+    this.turnosAMostrar = this.turnosValidos;
+  }
+
+  cambiarEspecialista(opcion : any){
+
+    this.turnosAMostrar = [];
+    
+    if(opcion != 'mostrarTodos'){
+
+      for(let item of this.auth.currentUser.historiaClinica){
+        if(item.especialista == opcion){
+          this.turnosAMostrar.push(item);
+        }
+      }
+    }else{
+      this.turnosAMostrar = this.turnosValidos;
+    }
+
   }
 
 }

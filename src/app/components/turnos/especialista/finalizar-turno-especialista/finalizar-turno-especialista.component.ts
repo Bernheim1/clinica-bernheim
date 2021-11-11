@@ -125,6 +125,8 @@ export class FinalizarTurnoEspecialistaComponent implements OnInit {
       }
     }
 
+    formulario.especialista = this.auth.currentUser.nombre + ' ' + this.auth.currentUser.apellido;
+
     if(this.paciente.historiaClinica == null){
       let aux : any[] = [];
       aux.push(formulario);

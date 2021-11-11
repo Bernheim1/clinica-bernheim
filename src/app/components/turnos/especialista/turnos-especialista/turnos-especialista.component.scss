@@ -1,0 +1,24 @@
+.slide-in-elliptic-top-fwd {
+    animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+
+  @keyframes slide-in-elliptic-top-fwd {
+    0% {
+      transform: translateY(-600px) rotateX(-30deg) scale(0);
+      transform-origin: 50% 100%;
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0) rotateX(0) scale(1);
+      transform-origin: 50% 1400px;
+      opacity: 1;
+    }
+  }
+
+  .fullscreen-bg {
+    position: fixed;
+    z-index: -1;
+    top:0; right:0; bottom:0; left:0;
+    background: url('../../../../../assets/fondoClinica.png') center;
+    background-size: cover;
+  }

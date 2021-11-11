@@ -1,11 +1,22 @@
 
-<div class="container card" style="padding: 20px; border-radius: 15px; margin-top: 70px;">
+<div class="container card " style="padding: 20px; border-radius: 15px; margin-top: 70px;">
     <div class="row">
         <div class="col-md-12">
             <app-tabla-usuarios></app-tabla-usuarios>
         </div>
         <div class="col-md-12" style="margin-top: 20px;">
             <app-seleccion-registro [admin]='true'></app-seleccion-registro>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;">
+            <app-logs-usuarios></app-logs-usuarios>
+        </div>
+        <div class="col-md-12" style="margin-top: 20px;" #informe>
+            <app-graficos-admin></app-graficos-admin>
+        </div>
+        <div class="row justify-content-center" style="margin-top: 20px">
+            <div class="col-md-12 justify-content-center">
+                <button type="button" class="btn btn btn-primary btn-block" (click)="descargarPDF()">Descargar PDF</button>
+            </div>
         </div>
     </div>
 </div>

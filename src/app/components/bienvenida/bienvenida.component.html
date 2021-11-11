@@ -42,7 +42,7 @@
 
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
-    <div class="container">
+    <div class="container slide-in-elliptic-top-fwd">
       <div class="card p-5" style="margin-top: 10px">
         <h1 class="display-3">Clinica online</h1>
         <p><a class="btn btn-primary btn-lg" [routerLink]="['/login']" role="button">Ingresar &raquo;</a></p>
@@ -51,36 +51,36 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container slide-in-elliptic-top-fwd">
     <!-- Example row of columns -->
     <div class="row" style="justify-content: center">
       <div class="col-md-9 card" *ngIf="this.auth.currentUser != null">
         <h2>Perfil</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/perfil']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/perfil']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente'">
         <h2>Mis turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/paciente']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/paciente']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'especialista'">
         <h2>Mis turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/especialista']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/especialista']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'admin'">
         <h2>Turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/admin']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/admin']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente' || this.auth.currentUser?.tipo == 'admin'">
         <h2>Solicitar turno</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/alta']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/turnos/alta']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">
         <h2>Seccion usuarios</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/admin/seccionUsuarios']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/admin/seccionUsuarios']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
       <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'especialista'">
         <h2>Seccion pacientes</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/especialista/seccionPacientes']" role="button">Ir &raquo;</a></p>
+        <p><a class="btn btn-secondary" [routerLink]="['/especialista/seccionPacientes']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
       </div>
     </div>
 

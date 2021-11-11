@@ -230,7 +230,12 @@ export class AltaTurnoComponent implements OnInit {
       fecha.setDate(item.getDate());
         if(aux == fecha.getDay()){
           item = this.datePipe.transform(item, 'dd/MM/yyyy');
-          retorno.push(item);
+          let aux = this.seleccionFecha(item);
+
+          retorno.push({
+            fecha : item,
+            horas : aux
+          });
         }
     }
 
@@ -239,8 +244,6 @@ export class AltaTurnoComponent implements OnInit {
   }
 
   seleccionFecha(opcion : any){
-
-    this.mostrarFechas = false;
 
     this.fechaSeleccionada = opcion;
     console.log(this.fechaSeleccionada);
@@ -268,12 +271,12 @@ export class AltaTurnoComponent implements OnInit {
 
     }
 
-    this.mostrarHoras = true;
+    return this.horasValidas;
+
   }
 
   seleccionHora(opcion : any){
     this.horaSeleccionada = opcion;
-    this.mostrarHoras = false;
 
     this.agregarTurno();
   }
@@ -339,6 +342,19 @@ export class AltaTurnoComponent implements OnInit {
     }
 
     this.firebase.modificarUsuario(this.especialistaSeleccionado, this.especialistaSeleccionado.id);
+    this.mostrarFechas = false;
+    if(this.auth.currentUser?.tipo == 'admin'){
+      this.mostrarPacientes = true
+    }else{
+      this.mostrarEspecialidades = true;
+    }
+
+    this.pacienteSeleccionado = null;
+    this.especialidadSeleccionada = '';
+    this.especialistaSeleccionado = null;
+    this.fechaSeleccionada = '';
+    this.horaSeleccionada = '';
+
     this.utilidades.mostrarToastSuccess('Turno solicitado', 'Su turno ha sido solicitado');
   }
 

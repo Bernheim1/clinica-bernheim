@@ -1,0 +1,19 @@
+<div class="row align-text-center">
+    <h3>Logs de usuarios</h3>
+</div>
+<div class="container">
+    <table class="table table-fixed">
+      <thead>
+        <tr>
+          <th class="col-xs-3">Fecha</th>
+          <th class="col-xs-3">Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of ultimosLogs">
+          <td class="col-xs-3">{{item.fecha}}</td>
+          <td class="col-xs-3">{{item.usuario}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

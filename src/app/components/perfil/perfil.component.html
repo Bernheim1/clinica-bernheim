@@ -1,9 +1,9 @@
-<section class="vh-100">
+<section class="vh-100" style="margin-top: 30px">
     <div class="container py-5 h-100">
       <div class="row justify-content-center align-items-center h-100">
         <div class="col-md-12 col-xl-4">
   
-          <div class="card d-flex" style="border-radius: 15px;">
+          <div class="card d-flex slide-in-elliptic-top-fwd" style="border-radius: 15px;">
             <div class="card-body text-center">
               <div class="mt-3 mb-4">
                 <img
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-xl-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
+        <div class="col-md-12 col-xl-4 card slide-in-elliptic-top-fwd" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
           <div class="row">
             <div class="col-md-6" style="margin-top: 5px" *ngFor="let item of arrHorarios">   
               <button type="button" class="btn btn-block btn-primary" (click)="seleccionHorario(item)">{{item}}</button>
@@ -58,7 +58,7 @@
             
           </div>
         </div>
-        <div class="col-md-12 col-xl-4 card" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
+        <div class="col-md-12 col-xl-4 card slide-in-elliptic-top-fwd" style="padding: 5px; border-radius: 10px;" *ngIf="mostrarMisHorarios">
 
           <button type="button" class="btn btn-block btn-primary" *ngFor="let item of arrDias"(click)="seleccionDia(item)">{{item}}</button>
 
@@ -70,10 +70,22 @@
 
           <button type="button" class="btn btn-block btn-primary" (click)="enviarHorarios()">Seleccionar horarios</button>
         </div>
-        <div class="container card " style="padding: 20px; border-radius: 15px; margin-top: 20px; margin-bottom: 20px;" *ngIf="this.auth.currentUser?.tipo == 'paciente' && this.auth.currentUser.historiaClinica != null">
-          <h2>Historia clinica</h2>
+        <div class="container card slide-in-elliptic-top-fwd" style="padding: 20px; border-radius: 15px; margin-top: 20px; margin-bottom: 20px;" *ngIf="this.auth.currentUser?.tipo == 'paciente' && this.auth.currentUser.historiaClinica != null">
+          <div class="d-flex">
+            <div class="flex-grow-1">
+              <h2>Historia clinica</h2>
+          </div>
+            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.cambiarEspecialista('mostrarTodos')">Mostrar todos</button>
+            <button type="button" class="btn btn-success btn-lg text-white" style="margin: 5px" (click)="this.descargarPDF()">Descargar PDF</button>
+          </div>
+          <div class="row">
+            <div class="d-flex gap-4" style="margin-top: 5px;">
+              <h6>Especialistas: </h6>
+              <button class="btn btn-primary btn-sm" (click)="this.cambiarEspecialista(item)" *ngFor="let item of arrEspecialistasValidos">{{item}}</button>
+          </div>
+          </div>
           <div class="row mx-0 d-flex" style="justify-content: center;">
-            <div style="justify-content: center; width: 18rem; margin-top: 20px; margin-bottom: 20px;" *ngFor="let item of auth.currentUser.historiaClinica">
+            <div style="justify-content: center; width: 18rem; margin-top: 20px; margin-bottom: 20px;" *ngFor="let item of turnosAMostrar">
               <div class="card d-block" style="border-radius: 15px; padding: 10px;">
                 <h4>Altura: {{item.altura}}</h4>
                 <h4>Peso: {{item.peso}}</h4>
