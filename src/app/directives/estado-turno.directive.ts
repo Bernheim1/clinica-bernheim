@@ -5,6 +5,14 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 })
 export class EstadoTurnoDirective {
 
+  /* 
+  Utilizado en: 
+    tabla-turnos-administrador.component.html = linea 25
+    tabla-turnos-especialista.component.html = linea 34
+    tabla-turnos-paciente.component.html = linea 34
+  */
+
+
   @Input() appEstadoTurno : any;
 
   constructor(private el: ElementRef) { 

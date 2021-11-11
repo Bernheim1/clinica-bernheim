@@ -5,6 +5,12 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class BotonBienvenidaDirective {
 
+  /* 
+  Utilizado en: 
+    bienvenida.component.html = lineas 58-83
+  */
+
+
   constructor(private el: ElementRef) { 
   }
 

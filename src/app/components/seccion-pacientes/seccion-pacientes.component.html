@@ -10,7 +10,7 @@
             [src]="item.fotoPerfil"
             class="rounded-circle img-fluid card-img-top" style="width: 150px; height: 150px; display: block; margin: 0" alt="Card image cap"
             />
-            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarPaciente(item)">Selecionar</button>
+            <button type="button" class="btn btn-primary btn-lg text-white" style="margin: 5px" (click)="this.seleccionarPaciente(item)" [appBotonHistoriaClinica]="item">Selecionar</button>
           </div>
         </div>
       </div>
