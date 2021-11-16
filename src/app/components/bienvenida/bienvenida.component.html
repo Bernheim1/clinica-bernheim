@@ -1,103 +1,134 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.80.0">
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/jumbotron/">
-
-    
-
-    <!-- Bootstrap core CSS -->
-
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-  </head>
-  <body>
-    
-
-<main role="main">
-
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
-    <div class="container slide-in-elliptic-top-fwd">
-      <div class="card p-5" style="margin-top: 10px">
-        <h1 class="display-3">Clinica online</h1>
-        <p><a class="btn btn-primary btn-lg" [routerLink]="['/login']" role="button">Ingresar &raquo;</a></p>
-        <p><a class="btn btn-primary btn-lg" [routerLink]="['/registro']" role="button">Registrarse &raquo;</a></p>
+<section class="banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 col-xl-7">
+          <div class="col-md-12">
+            <div class="block card" style="border-radius: 15px; padding: 10px; margin-top: 100px">
+              <div class="divider mb-3"></div>
+              <span class="text-uppercase text-sm letter-spacing ">Todos las soluciones en un mismo lugar</span>
+              <h1 class="mb-3 mt-3">Clinica Online</h1>
+              
+              <p class="mb-4 pr-5">Sistema de administracion de clinica online</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-3 col-md-12">
+          <div class="block card align-items-center" style="border-radius: 15px; padding: 10px; margin-top: 100px">
+            <img src="../../../assets/favicon.ico" alt="" height="200px" width="200px">
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+  <section class="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="feature-block d-lg-flex">
+            <div class="feature-item mb-5 mb-lg-0">
+              <div class="feature-icon mb-4">
+              <img src="https://img.icons8.com/ios/50/000000/login-rounded-right--v1.png"/>
+              </div>
+              <h4 class="mb-3">Ingresar</h4>
+              <p class="mb-4">Ingreso a la clinica online</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/login']" role="button" appBotonBienvenida>Ingresar &raquo;</a></p>
+            </div>
+        
+            <div class="feature-item mb-5 mb-lg-0">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-sign-up-call-to-action-bearicons-glyph-bearicons-1.png"/>
+              </div>
+              <h4 class="mb-3">Registrarse</h4>
+              <p>Registre una nueva cuenta en la clinica</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/registro']" role="button" appBotonBienvenida>Registrarse &raquo;</a></p>
+            </div>
 
-  <div class="container slide-in-elliptic-top-fwd">
-    <!-- Example row of columns -->
-    <div class="row" style="justify-content: center">
-      <div class="col-md-9 card" *ngIf="this.auth.currentUser != null">
-        <h2>Perfil</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/perfil']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            <div class="feature-item mb-5 mb-lg-0">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios-filled/50/000000/clock--v3.png"/>
+              </div>
+              <h4 class="mb-3">Horarios de trabajo</h4>
+              <ul class="w-hours list-unstyled">
+                          <li class="d-flex justify-content-between">Lun - Vie : <span>8:00 - 19:00</span></li>
+                          <li class="d-flex justify-content-between">Sab : <span>8:00 - 14:00</span></li>
+                      </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente'">
-        <h2>Mis turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/paciente']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'especialista'">
-        <h2>Mis turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/especialista']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'admin'">
-        <h2>Turnos</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/admin']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente' || this.auth.currentUser?.tipo == 'admin'">
-        <h2>Solicitar turno</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/turnos/alta']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">
-        <h2>Seccion usuarios</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/admin/seccionUsuarios']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
-      </div>
-      <div class="col-md-9 card" style="margin-top: 10px" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'especialista'">
-        <h2>Seccion pacientes</h2>
-        <p><a class="btn btn-secondary" [routerLink]="['/especialista/seccionPacientes']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+      <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-lg-12">
+          <div class="feature-block d-lg-flex">
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios-glyphs/50/000000/user.png"/>
+              </div>
+              <h4 class="mb-3">Perfil</h4>
+              <p>Ingrese a su perfil para ver su historia clinica</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/perfil']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios/50/000000/list--v1.png"/>
+              </div>
+              <h4 class="mb-3">Mis turnos</h4>
+              <p>Ingrese a Mis Turnos para ver sus turnos</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/turnos/paciente']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'especialista'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios/50/000000/list--v1.png"/>
+              </div>
+              <h4 class="mb-3">Mis turnos</h4>
+              <p>Ingrese a Mis Turnos para ver sus turnos</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/turnos/especialista']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'admin'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios/50/000000/list--v1.png"/>
+              </div>
+              <h4 class="mb-3">Turnos</h4>
+              <p>Ingrese a Turnos para ver los turnos de la clinica</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/turnos/admin']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser?.tipo == 'paciente' || this.auth.currentUser?.tipo == 'admin'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios/50/000000/edit-property.png"/>
+              </div>
+              <h4 class="mb-3">Solicitar turno</h4>
+              <p>Ingrese a Solicitar turno para solicitar turnos</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/turnos/alta']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'admin'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios-filled/50/000000/groups.png"/>
+              </div>
+              <h4 class="mb-3">Seccion usuarios</h4>
+              <p>Ingrese a Seccion usuarios para ver todos los datos de la clinica</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/admin/seccionUsuarios']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+            <div class="feature-item mb-5 mb-lg-0" *ngIf="this.auth.currentUser != null && this.auth.currentUser.tipo == 'especialista'">
+              <div class="feature-icon mb-4">
+                <img src="https://img.icons8.com/ios-filled/50/000000/groups.png"/>
+              </div>
+              <h4 class="mb-3">Seccion pacientes</h4>
+              <p>Ingrese a Seccion pacientes para ver todos los datos de sus pacientes</p>
+              <p><a class="btn btn-lg" style="border: solid 2px #8460c4" [routerLink]="['/especialista/seccionPacientes']" role="button" appBotonBienvenida>Ir &raquo;</a></p>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
-
-    <hr>
-
-  </div> <!-- /container -->
-
-</main>
-
-<footer class="container">
-  <p>&copy; Clinica Bernheim</p>
-</footer>
+  </section>
+  
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-      
-  </body>
-</html>
+  <div class="fullscreen-bg"></div>

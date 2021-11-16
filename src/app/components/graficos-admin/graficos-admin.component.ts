@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import * as Highcharts from 'highcharts';
+import { type } from 'os';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class GraficosAdminComponent implements OnInit {
       this.validarTurnosEspecialista();
       this.validarTurnosFinalizados();
       this.getChartData();
+      this.armarGraficoHighChart();
     });
   }
 
@@ -178,19 +181,19 @@ export class GraficosAdminComponent implements OnInit {
 
   getChartData(){
 
-    let especialidades = this.arrEspecialidades.map((item : any) => {
-      return item.especialidad;
-    });
-
-    let cantidadEspecialidad = this.arrEspecialidades.map((item : any) => {
-      return item.cantidad;
-    });
-
     let dias = this.arrTurnosPorDia.map((item : any) => {
       return item.dia;
     });
 
     let cantidadDia = this.arrTurnosPorDia.map((item : any) => {
+      return item.cantidad;
+    });
+
+    let especialidades = this.arrEspecialidades.map((item : any) => {
+      return item.especialidad;
+    });
+
+    let cantidadEspecialidad = this.arrEspecialidades.map((item : any) => {
       return item.cantidad;
     });
 
@@ -211,11 +214,6 @@ export class GraficosAdminComponent implements OnInit {
     })
 
     this.chart = {
-      primero:{
-        pieChartLabels: dias,
-        pieChartData: cantidadDia,
-        pieChartType: 'pie',
-      },
       segundo:{
         pieChartLabels: especialidades,
         pieChartData: cantidadEspecialidad,
@@ -232,7 +230,50 @@ export class GraficosAdminComponent implements OnInit {
         pieChartType: 'pie',
       },
     }
+    
   }
 
+  chartOptionsv2:any;
+  highcharts = Highcharts;
+
+  armarGraficoHighChart()
+  {
+
+    let dias : string[] = this.arrTurnosPorDia.map((item : any) => {
+      return item.dia.toString();
+    });
+
+    let cantidadDia = this.arrTurnosPorDia.map((item : any) => {
+      return item.cantidad;
+    });
+
+    this.chartOptionsv2 = Highcharts.setOptions( {
+      chart: {
+        type: 'column',
+      },
+      title: {
+        text: "Turnos por dia"
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0.2,
+          borderWidth: 0
+        }
+      },
+      xAxis: {
+        categories: dias,
+        crosshair: true
+      },
+      series: [
+        {
+        name: 'Dias',
+        data : cantidadDia,
+        type : 'column'
+      }
+      ]
+    })
+  }
 
 }
+
+

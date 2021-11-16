@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common'
+import { HighchartsChartModule } from 'highcharts-angular';
 
 
 
@@ -49,6 +50,7 @@ import { ChartsModule } from 'ng2-charts';
 import { GraficosAdminComponent } from './components/graficos-admin/graficos-admin.component';
 import { LogsUsuariosComponent } from './components/logs-usuarios/logs-usuarios.component';
 import { EstadoHistoriaClinicaPipe } from './pipes/estado-historia-clinica.pipe';
+import * as Highcharts from 'highcharts';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,7 @@ import { EstadoHistoriaClinicaPipe } from './pipes/estado-historia-clinica.pipe'
       preventDuplicates: true,
     }),
     ChartsModule,
+    HighchartsChartModule
   ],
   providers: [DatePipe, EstadoTurnoPipe, TipoUsuarioPipe, EstadoHistoriaClinicaPipe],
   bootstrap: [AppComponent]

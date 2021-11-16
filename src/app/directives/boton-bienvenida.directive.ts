@@ -19,7 +19,7 @@ export class BotonBienvenidaDirective {
   }
 
   @HostListener('mouseleave') onMouseLeave() {
-    this.cambiarColor('grey');
+    this.cambiarColor('white');
   }
 
   cambiarColor(color : string){
