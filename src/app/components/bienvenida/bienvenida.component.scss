@@ -492,7 +492,7 @@ a:focus {
   position: top;
   overflow: hidden;
   background: #fff;
-  background: url("../../../assets/bannerBienvenida.jpg") no-repeat;
+  background: url("../../../assets/bannerbienvenida.jpg") no-repeat;
   background-size: cover;
   min-height: 550px;
 }
@@ -676,6 +676,10 @@ a:focus {
   transform: translateY(25px);
 }
 
+.counter-stat span {
+  font-size: 70px;
+  color: #fff;
+}
 
 .counter-stat p {
   margin-bottom: 0px;
